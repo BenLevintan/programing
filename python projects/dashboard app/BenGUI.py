@@ -91,3 +91,5 @@ if __name__ == '__main__':
     window = CounterApp()
     window.show()
     sys.exit(app.exec_())
+
+#this is a test
