@@ -3,7 +3,7 @@ import win32api
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget
 from PySide6.QtCore import Slot
 from PySide6.QtCore import QDateTime, QTimer
-from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY
+from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, VK_VOLUME_DOWN, VK_MEDIA_NEXT_TRACK
 
 
 WINDOW_HEIGHT = 300
@@ -33,6 +33,9 @@ class CounterApp(QWidget):
         self.reset_button = QPushButton('Reset acounter')
         self.resize_button = QPushButton('Resize window')
         self.play_button = QPushButton('Play/Pause')
+        self.volume_up_button = QPushButton('Volume +')
+        self.volume_down_button = QPushButton('Volume -')
+        self.track_next = QPushButton('Next')
 
         self.layout.addWidget(self.time_label, 0)
         
@@ -43,7 +46,10 @@ class CounterApp(QWidget):
         self.layout.addWidget(self.reset_button)
         self.layout.addWidget(self.resize_button)
         self.layout.addWidget(self.play_button)
-
+        self.layout.addWidget(self.volume_up_button)
+        self.layout.addWidget(self.volume_down_button)
+        self.layout.addWidget(self.track_next)
+        
 
         #calls the function that the button needs to execute
         self.add_button.clicked.connect(self.increment_counter)
@@ -51,6 +57,9 @@ class CounterApp(QWidget):
         self.reset_button.clicked.connect(self.reset_couner)
         self.resize_button.clicked.connect(self.toggle_size)
         self.play_button.clicked.connect(self.play_media)
+        self.volume_up_button.clicked.connect(self.volume_up)
+        self.volume_down_button.clicked.connect(self.volume_down)
+        self.track_next.clicked.connect(self.next_track)
 
         self.setLayout(self.layout)
 
@@ -78,6 +87,14 @@ class CounterApp(QWidget):
     def play_media(self):
         win32api.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0)
 
+    def volume_up(self):
+        win32api.keybd_event(VK_VOLUME_UP, 4)
+
+    def volume_down(self):
+        win32api.keybd_event(VK_VOLUME_DOWN, 4)
+
+    def next_track(self):
+        win32api.keybd_event(VK_MEDIA_NEXT_TRACK, 1)
 
     def get_current_time(self):
         return QDateTime.currentDateTime().toString('hh:mm:ss')
