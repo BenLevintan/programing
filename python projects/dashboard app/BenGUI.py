@@ -1,7 +1,10 @@
 import sys
+import win32api
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget
 from PySide6.QtCore import Slot
 from PySide6.QtCore import QDateTime, QTimer
+from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY
+
 
 WINDOW_HEIGHT = 300
 WINDOW_WIDTH_MIN = 150
@@ -29,6 +32,8 @@ class CounterApp(QWidget):
         self.decrement_button = QPushButton('Subtract 1')
         self.reset_button = QPushButton('Reset acounter')
         self.resize_button = QPushButton('Resize window')
+        self.play_button = QPushButton('Play/Pause')
+
         self.layout.addWidget(self.time_label, 0)
         
         #adds the widget that fits the button 
@@ -37,6 +42,7 @@ class CounterApp(QWidget):
         self.layout.addWidget(self.decrement_button)
         self.layout.addWidget(self.reset_button)
         self.layout.addWidget(self.resize_button)
+        self.layout.addWidget(self.play_button)
 
 
         #calls the function that the button needs to execute
@@ -44,7 +50,7 @@ class CounterApp(QWidget):
         self.decrement_button.clicked.connect(self.decrement_counter)
         self.reset_button.clicked.connect(self.reset_couner)
         self.resize_button.clicked.connect(self.toggle_size)
-
+        self.play_button.clicked.connect(self.play_media)
 
         self.setLayout(self.layout)
 
@@ -69,6 +75,10 @@ class CounterApp(QWidget):
         else:
             self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)
 
+    def play_media(self):
+        win32api.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0)
+
+
     def get_current_time(self):
         return QDateTime.currentDateTime().toString('hh:mm:ss')
     
@@ -92,4 +102,3 @@ if __name__ == '__main__':
     window.show()
     sys.exit(app.exec_())
 
-#this is a test
