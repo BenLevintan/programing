@@ -7,8 +7,8 @@ from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, V
 
 
 WINDOW_HEIGHT = 300
-WINDOW_WIDTH_MIN = 150
-WINDOW_WIDTH_EX = 300
+WINDOW_WIDTH_MIN = 5
+WINDOW_WIDTH_EX = 150
 
 class CounterApp(QWidget):
     def __init__(self):
@@ -88,10 +88,11 @@ class CounterApp(QWidget):
         win32api.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0)
 
     def volume_up(self):
-        win32api.keybd_event(VK_VOLUME_UP, 4)
+        win32api.keybd_event(VK_VOLUME_UP, 12)
+
 
     def volume_down(self):
-        win32api.keybd_event(VK_VOLUME_DOWN, 4)
+        win32api.keybd_event(VK_VOLUME_DOWN, 12)
 
     def next_track(self):
         win32api.keybd_event(VK_MEDIA_NEXT_TRACK, 1)
