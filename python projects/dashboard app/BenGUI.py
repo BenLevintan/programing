@@ -7,8 +7,8 @@ from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, V
 
 
 WINDOW_HEIGHT = 300
-WINDOW_WIDTH_MIN = 5
-WINDOW_WIDTH_EX = 150
+WINDOW_WIDTH_MIN = 150
+WINDOW_WIDTH_EX = 300
 
 class CounterApp(QWidget):
     def __init__(self):
@@ -26,11 +26,6 @@ class CounterApp(QWidget):
         self.timer.start(1000)  # 1000 milliseconds = 1 second
 
         #creates the buttons in the window
-        self.layout.addWidget(self.time_label, 0)
-        self.label = QLabel(f'Counter: {self.counter}')
-        self.add_button = QPushButton('Add 1')
-        self.decrement_button = QPushButton('Subtract 1')
-        self.reset_button = QPushButton('Reset acounter')
         self.resize_button = QPushButton('Resize window')
         self.play_button = QPushButton('Play/Pause')
         self.volume_up_button = QPushButton('Volume +')
@@ -40,10 +35,6 @@ class CounterApp(QWidget):
         self.layout.addWidget(self.time_label, 0)
         
         #adds the widget that fits the button 
-        self.layout.addWidget(self.label)
-        self.layout.addWidget(self.add_button)
-        self.layout.addWidget(self.decrement_button)
-        self.layout.addWidget(self.reset_button)
         self.layout.addWidget(self.resize_button)
         self.layout.addWidget(self.play_button)
         self.layout.addWidget(self.volume_up_button)
@@ -52,9 +43,6 @@ class CounterApp(QWidget):
         
 
         #calls the function that the button needs to execute
-        self.add_button.clicked.connect(self.increment_counter)
-        self.decrement_button.clicked.connect(self.decrement_counter)
-        self.reset_button.clicked.connect(self.reset_couner)
         self.resize_button.clicked.connect(self.toggle_size)
         self.play_button.clicked.connect(self.play_media)
         self.volume_up_button.clicked.connect(self.volume_up)
@@ -66,17 +54,6 @@ class CounterApp(QWidget):
         self.setMouseTracking(True)  # Enable the widget to accept hover events
 
     #the functions 
-    def increment_counter(self):
-        self.counter += 1
-        self.label.setText(f'Counter: {self.counter}')
-
-    def decrement_counter(self):
-        self.counter -= 1
-        self.label.setText(f'Counter: {self.counter}')
-
-    def reset_couner(self):
-        self.counter = 0
-        self.label.setText(f'Counter: {self.counter}')
 
     def toggle_size(self):
         if self.width() == WINDOW_WIDTH_MIN:
