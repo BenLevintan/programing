@@ -1,11 +1,10 @@
 import sys
 import win32api
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget
-from PySide6.QtCore import Slot
 from PySide6.QtCore import QDateTime, QTimer
 from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, VK_VOLUME_DOWN, VK_MEDIA_NEXT_TRACK
 
-
+# Constants
 WINDOW_HEIGHT = 300
 WINDOW_WIDTH_MIN = 150
 WINDOW_WIDTH_EX = 300
@@ -17,43 +16,31 @@ class CounterApp(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        # Create layout
         self.layout = QVBoxLayout(self)
         self.time_label = QLabel(self.get_current_time())
-        self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)  # Set the initial window size
+        self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)
 
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_time)
-        self.timer.start(1000)  # 1000 milliseconds = 1 second
-
-        #creates the buttons in the window
-        self.resize_button = QPushButton('Resize window')
-        self.play_button = QPushButton('Play/Pause')
-        self.volume_up_button = QPushButton('Volume +')
-        self.volume_down_button = QPushButton('Volume -')
-        self.track_next = QPushButton('Next')
+        # Create buttons
+        self.create_button('Resize window', self.toggle_size)
+        self.create_button('Play/Pause', self.play_media)
+        self.create_button('Volume +', self.volume_up)
+        self.create_button('Volume -', self.volume_down)
+        self.create_button('Next', self.next_track)
 
         self.layout.addWidget(self.time_label, 0)
-        
-        #adds the widget that fits the button 
-        self.layout.addWidget(self.resize_button)
-        self.layout.addWidget(self.play_button)
-        self.layout.addWidget(self.volume_up_button)
-        self.layout.addWidget(self.volume_down_button)
-        self.layout.addWidget(self.track_next)
-        
-
-        #calls the function that the button needs to execute
-        self.resize_button.clicked.connect(self.toggle_size)
-        self.play_button.clicked.connect(self.play_media)
-        self.volume_up_button.clicked.connect(self.volume_up)
-        self.volume_down_button.clicked.connect(self.volume_down)
-        self.track_next.clicked.connect(self.next_track)
-
         self.setLayout(self.layout)
+        self.setMouseTracking(True)
 
-        self.setMouseTracking(True)  # Enable the widget to accept hover events
+        # Create timer for updating time label
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_time)
+        self.timer.start(1000)
 
-    #the functions 
+    def create_button(self, text, handler):
+        button = QPushButton(text)
+        button.clicked.connect(handler)
+        self.layout.addWidget(button)
 
     def toggle_size(self):
         if self.width() == WINDOW_WIDTH_MIN:
@@ -67,7 +54,6 @@ class CounterApp(QWidget):
     def volume_up(self):
         win32api.keybd_event(VK_VOLUME_UP, 12)
 
-
     def volume_down(self):
         win32api.keybd_event(VK_VOLUME_DOWN, 12)
 
@@ -76,19 +62,19 @@ class CounterApp(QWidget):
 
     def get_current_time(self):
         return QDateTime.currentDateTime().toString('hh:mm:ss')
-    
+
     def update_time(self):
         current_time = self.get_current_time()
         self.time_label.setText(current_time)
 
     def enterEvent(self, event):
-        self.setWindowOpacity(1.0)  # Make the window fully opaque
-        self.resize(WINDOW_WIDTH_EX, WINDOW_HEIGHT)  # Resize to the bigger window
+        self.setWindowOpacity(1.0)
+        self.resize(WINDOW_WIDTH_EX, WINDOW_HEIGHT)
         super().enterEvent(event)
 
     def leaveEvent(self, event):
-        self.setWindowOpacity(0.3)  # Make the window transparent
-        self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)  # Resize to the smaller window
+        self.setWindowOpacity(0.3)
+        self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)
         super().leaveEvent(event)
 
 if __name__ == '__main__':
