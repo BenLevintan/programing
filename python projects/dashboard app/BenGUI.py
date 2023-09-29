@@ -2,7 +2,7 @@ import sys
 import win32api
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget
 from PySide6.QtCore import QDateTime, QTimer
-from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, VK_VOLUME_DOWN, VK_MEDIA_NEXT_TRACK
+from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, VK_VOLUME_DOWN, VK_MEDIA_NEXT_TRACK, VK_VOLUME_MUTE
 
 # Constants
 WINDOW_HEIGHT = 300
@@ -27,6 +27,7 @@ class CounterApp(QWidget):
         self.create_button('Volume +', self.volume_up)
         self.create_button('Volume -', self.volume_down)
         self.create_button('Next', self.next_track)
+        self.create_button('Mute', self.mute_sound)
 
         self.layout.addWidget(self.time_label, 0)
         self.setLayout(self.layout)
@@ -41,6 +42,9 @@ class CounterApp(QWidget):
         button = QPushButton(text)
         button.clicked.connect(handler)
         self.layout.addWidget(button)
+
+    def mute_sound(self):
+        win32api.keybd_event(VK_VOLUME_MUTE, 0)
 
     def toggle_size(self):
         if self.width() == WINDOW_WIDTH_MIN:
