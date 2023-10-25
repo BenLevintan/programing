@@ -7,7 +7,7 @@ from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, V
 # Constants
 WINDOW_HEIGHT = 300
 WINDOW_WIDTH_MIN = 150
-WINDOW_WIDTH_EX = 300
+WINDOW_WIDTH_EX = 180
 
 class CounterApp(QWidget):
     def __init__(self):
