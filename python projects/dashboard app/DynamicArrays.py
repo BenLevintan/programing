@@ -23,7 +23,9 @@ class DynamicArray:
         for i in range(self.length):
             new_array[i] = self.array[i]
         self.array = new_array
-        self.capacity = 2 * self.capacity       
+        self.length =+ 1
+        self.capacity = 2 * self.capacity
+        return self.array[self.length]
 
     def resize(self) -> None:
         self.capacity *= 2
