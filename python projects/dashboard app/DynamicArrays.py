@@ -2,7 +2,7 @@ class DynamicArray:
     
     def __init__(self, capacity: int):
         self.length = 0
-        self.capacity = 1
+        self.capacity = capacity
         self.array = [None] * self.capacity
 
     def get(self, i: int) -> int: 
