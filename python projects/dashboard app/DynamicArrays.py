@@ -15,7 +15,9 @@ class DynamicArray:
     def pushback(self, n: int) -> None:
         if self.length == self.capacity:
             self.resize()
-        self.array[self.length] = n
+        for i in range(self.length):
+            if self.array != None:
+                self.array[self.length] = n
         self.length += 1
 
     def popback(self) -> int: 
