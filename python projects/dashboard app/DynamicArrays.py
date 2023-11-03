@@ -3,7 +3,7 @@ class DynamicArray:
     def __init__(self, capacity: int):
         self.length = 0
         self.capacity = capacity
-        self.array = [None] * self.capacity
+        self.array = [0] * self.capacity
 
     def get(self, i: int) -> int: 
         return self.array[i]
@@ -13,25 +13,22 @@ class DynamicArray:
         self.array[i] = n
 
     def pushback(self, n: int) -> None:
-        if self.length == self.capacity:
+        if self.capacity == self.length:   #check if there enough capacity for another int
             self.resize()
-        for i in range(self.length):
-            if self.array != None:
-                self.array[self.length] = n
+        self.array[self.length] = n
         self.length += 1
 
-    def popback(self) -> int: 
-        new_array = [None] * (2 * self.capacity)
-        for i in range(self.length):
-            new_array[i] = self.array[i]
-        self.array = new_array
-        self.length =+ 1
-        self.capacity = 2 * self.capacity
-        return self.array[self.length]
+    def popback(self) -> int:         #popback but in 'soft delete' method
+        if self.length > 0:
+            self.length -= 1
+            return self.array[self.length]     
 
     def resize(self) -> None:
-        self.capacity *= 2
-        self.length *= 2
+        newArray = [0] * (2 * self.capacity)
+        for i in range(self.length):
+            newArray[i] = self.array[i]
+        self.array = newArray
+        self.capacity = 2 * self.capacity
 
     def getSize(self) -> int: 
         return self.length
