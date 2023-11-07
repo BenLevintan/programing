@@ -6,11 +6,17 @@ class ListNode:
 class LinkedList:
     
     def __init__(self):
-        self.head = ListNode(-1)
+        self.head = ListNode(-1)      #fake node (dummy node), makes removeing node easier
         self.tail = self.head
     
     def get(self, index: int) -> int:
-
+        current = self.head.next      #current is the fisrt node (after the dummy node)
+        for i in range(index):        #jump nodes till you reach the wanted index
+            if i == index:
+                return current.val
+            else:                     #current is set to be the next node
+                current = current.next        
+        return -1                     #if node was now found (index error)    
 
     def insertHead(self, val: int) -> None:
         new_node = ListNode(val)      # creating a new node with given val
@@ -23,6 +29,9 @@ class LinkedList:
         self.tail = new_node          # making the new node at the tail of the list
 
     def remove(self, index: int) -> bool:
-        
+        current = self.head.next      #current is the fisrt node (after the dummy node)
+        for i in range(index):        #jump nodes till you reach the wanted index
+            if i == index:
+
 
     def getValues(self) -> List[int]:
