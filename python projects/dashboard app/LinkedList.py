@@ -32,6 +32,19 @@ class LinkedList:
         current = self.head.next      #current is the fisrt node (after the dummy node)
         for i in range(index):        #jump nodes till you reach the wanted index
             if i == index:
+                current = current.next
 
+        if current and current.next:
+            if current.next == self.tail:
+                self.tail = current
+            current.next = current.next.next
+            return True
+        return False
 
     def getValues(self) -> List[int]:
+        curr = self.head.next
+        res = []
+        while curr:
+            res.append(curr.val)
+            curr = curr.next
+        return res
