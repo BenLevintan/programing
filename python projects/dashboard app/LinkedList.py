@@ -11,17 +11,20 @@ class LinkedList:
     
     def get(self, index: int) -> int:
         current = self.head.next      #current is the fisrt node (after the dummy node)
-        for i in range(index):        #jump nodes till you reach the wanted index
+        i = 0
+        while current:        #jump nodes till you reach the wanted index
             if i == index:
                 return current.val
-            else:                     #current is set to be the next node
-                current = current.next        
+            i =+ 1
+            current = current.next        
         return -1                     #if node was now found (index error)    
 
     def insertHead(self, val: int) -> None:
         new_node = ListNode(val)      # creating a new node with given val
-        new_node.next = self.head     # pushing the head nude as the next node to the new nude
+        new_node.next = self.head.next     # pushing the head nude as the next node to the new nude
         self.head = new_node          # setting the new node as head of the list
+        if not new_node.next:  # If list was empty before insertion
+            self.tail = new_node
 
     def insertTail(self, val: int) -> None:
         new_node = ListNode(val)      # creating a new node with given val
