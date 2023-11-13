@@ -1,7 +1,8 @@
 import sys
 import win32api
-from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget
-from PySide6.QtCore import QDateTime, QTimer
+from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QPushButton, QWidget, QLineEdit
+from PySide6.QtGui import QPixmap, QImage, QColor, QRegion
+from PySide6.QtCore import QTimer
 from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY, VK_VOLUME_UP, VK_VOLUME_DOWN, VK_MEDIA_NEXT_TRACK, VK_VOLUME_MUTE
 
 # Constants
@@ -15,11 +16,17 @@ class CounterApp(QWidget):
         self.counter = 0
         self.init_ui()
 
+        self.circle_image = QPixmap("circle.png")
+        self.square_image = QPixmap("square.png")
+    
+
     def init_ui(self):
         # Create layout
         self.layout = QVBoxLayout(self)
-        self.time_label = QLabel(self.get_current_time())
-        self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)
+
+        # Create text box
+        self.text_box = QLineEdit(self)
+        self.layout.addWidget(self.text_box)
 
         # Create buttons
         self.create_button('Resize window', self.toggle_size)
@@ -29,7 +36,6 @@ class CounterApp(QWidget):
         self.create_button('Next', self.next_track)
         self.create_button('Mute', self.mute_sound)
 
-        self.layout.addWidget(self.time_label, 0)
         self.setLayout(self.layout)
         self.setMouseTracking(True)
 
@@ -37,6 +43,8 @@ class CounterApp(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_time)
         self.timer.start(1000)
+
+        self.load_text()
 
     def create_button(self, text, handler):
         button = QPushButton(text)
@@ -64,12 +72,21 @@ class CounterApp(QWidget):
     def next_track(self):
         win32api.keybd_event(VK_MEDIA_NEXT_TRACK, 1)
 
-    def get_current_time(self):
-        return QDateTime.currentDateTime().toString('hh:mm:ss')
+    def load_text(self):
+        try:
+            with open('saved_text.txt', 'r') as file:
+                text = file.read()
+                self.text_box.setText(text)
+        except FileNotFoundError:
+            pass
+
+    def save_text(self):
+        text = self.text_box.text()
+        with open('saved_text.txt', 'w') as file:
+            file.write(text)
 
     def update_time(self):
-        current_time = self.get_current_time()
-        self.time_label.setText(current_time)
+        self.save_text()
 
     def enterEvent(self, event):
         self.setWindowOpacity(1.0)
