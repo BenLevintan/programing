@@ -26,6 +26,7 @@ class CounterApp(QWidget):
 
         # Create text box
         self.text_box = QLineEdit(self)
+        self.text_box.setFixedHeight(50)  # Set the height to accommodate 2 rows
         self.layout.addWidget(self.text_box)
 
         # Create buttons
@@ -96,6 +97,7 @@ class CounterApp(QWidget):
     def leaveEvent(self, event):
         self.setWindowOpacity(0.3)
         self.resize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT)
+        self.setFixedSize(self.size())  # Set width and height to be the same
         super().leaveEvent(event)
 
 if __name__ == '__main__':
