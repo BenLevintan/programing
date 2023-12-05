@@ -12,7 +12,7 @@ def find_missing_number(nums):
     print(expected_sum , sum(nums))
     return expected_sum - sum(nums)
 
-def fizz_buzz():
+def fizz_buzz():   #make better with %3 %5 flags 
     for i in range (1,100):
         if i % 3 == 0 and i % 5 == 0:
             print("FizzBuzz")
@@ -22,3 +22,10 @@ def fizz_buzz():
             print("Buzz")
         else:
             print(i)
+
+def is_palindrome(s):
+    n = len(s)
+    for i in range (n // 2):
+        if s[i] != s[n - i - 1]:
+            return False
+    return True
