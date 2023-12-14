@@ -48,7 +48,7 @@ def containsDuplicate(nums):
     n = len(nums)
     
     # Iterate over indices (i)
-    for i in range(n//2):
+    for i in range(n//2 - 1):
         # Iterate over indices starting from i+1 (j)
         for j in range(i + 1, n):
             # Compare elements at indices i and j
