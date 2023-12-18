@@ -1,56 +1,53 @@
 import pygame
 import sys
+import random
 from player import Player
+from npcs import Birds
 
 pygame.init()
 
+BLACK = 0, 0 ,0
+BROWN = 200, 200, 0
+WHITE = 255, 255, 255
+
+ANTI_ALIASING = False
+
 WIN_WIDTH, WIN_HEIGHT = 1280, 720
-screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-pygame.display.set_caption("Game Title")
+GROUND_POS_Y = WIN_HEIGHT - 60
+screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  #creating a game screen
+pygame.display.set_caption("Game Title")                   #name of the game window
 
 clock = pygame.time.Clock()
 running = True
+
+FONT_SIZE = 50
+FONT_TYPE = 'assets/fonts/Pixle_Font.ttf'
+test_font = pygame.font.Font(FONT_TYPE, FONT_SIZE)
+
+sky_surface = pygame.image.load('assets/background1.png')
+ground_surface = pygame.image.load('assets/ground1.png')
+text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 
 player = Player()
 player_pos_x = 40
 player_pos_y = WIN_HEIGHT - 100
 
-jumping = False
-jump_timer = 0  # Initialize the jump timer
+background_birds = Birds(1300, 50, 4)
 
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT:   
+            pygame.quit()               #closing pygame
+            exit()                      #closing the program (sys import)
 
-    player_speed = player.BASE_SPEED
+    screen.blit(sky_surface,(0, 0))   #position()
+    screen.blit(ground_surface,(0,GROUND_POS_Y))   #position
+    screen.blit(text_surface,(20, 20))
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_pos_x -= player_speed
-    if keys[pygame.K_RIGHT]:
-        player_pos_x += player_speed
-    if keys[pygame.K_UP]:
-        if not jumping:
-            jumping = True
-            jump_timer = 30  # Set the jump timer to 30 frames (.5 second)
+    background_birds.bird_movement()
+    background_birds.draw(screen)
 
-    if keys[pygame.K_DOWN]:
-        player_pos_y += player_speed
-
-    # Jumping logic
-    if jumping:
-        player_pos_y -= player_speed * 2  # Move the player up during the jump
-        jump_timer -= 1
-        if jump_timer <= 0:
-            jumping = False
-
-    # Draw the player (circle)
-    pygame.draw.circle(screen, "red", (int(player_pos_x), int(player_pos_y)), 40)
-
-    pygame.display.flip()
-    screen.fill((0, 0, 0))  # Clear the screen on each iteration
-
+    pygame.display.update()
     clock.tick(60)
 
 pygame.quit()
