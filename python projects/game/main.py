@@ -28,8 +28,10 @@ sky_surface = pygame.image.load('assets/background1.png')
 ground_surface = pygame.image.load('assets/ground1.png')
 text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 
+ground_rect = ground_surface.get_rect(topleft = (0, GROUND_POS_Y))
+
 background_birds = Birds(1300, 50, 4)
-player = Player(WIN_HEIGHT-200, 200, 3)
+player = Player(0, 200, 20)
 
 while running:
     for event in pygame.event.get(): 
@@ -37,14 +39,20 @@ while running:
             pygame.quit()               #closing pygame
             exit()                      #closing the program (sys import)
 
+    keys = pygame.key.get_pressed()
+    player.player_movement(keys)
+
     screen.blit(sky_surface,(0, 0))   #position()
-    screen.blit(ground_surface,(0,GROUND_POS_Y))   #position
+    screen.blit(ground_surface,(0, GROUND_POS_Y))   #position
     screen.blit(text_surface,(20, 20))
 
     player.draw(screen)
 
     background_birds.bird_movement()
     background_birds.draw(screen)
+
+    if player.rect.colliderect(ground_rect):
+        player.rect.y = GROUND_POS_Y - player.rect.height
 
     pygame.display.update()
     clock.tick(60)
