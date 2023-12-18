@@ -2,7 +2,7 @@ import pygame
 import sys
 import random
 from player import Player
-from npcs import Birds
+from npcs import Birds, Player
 
 pygame.init()
 
@@ -28,11 +28,8 @@ sky_surface = pygame.image.load('assets/background1.png')
 ground_surface = pygame.image.load('assets/ground1.png')
 text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 
-player = Player()
-player_pos_x = 40
-player_pos_y = WIN_HEIGHT - 100
-
 background_birds = Birds(1300, 50, 4)
+player = Player(WIN_HEIGHT-200, 200, 3)
 
 while running:
     for event in pygame.event.get(): 
@@ -43,6 +40,8 @@ while running:
     screen.blit(sky_surface,(0, 0))   #position()
     screen.blit(ground_surface,(0,GROUND_POS_Y))   #position
     screen.blit(text_surface,(20, 20))
+
+    player.draw(screen)
 
     background_birds.bird_movement()
     background_birds.draw(screen)
