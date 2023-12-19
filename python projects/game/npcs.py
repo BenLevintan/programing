@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+from physics import Physics
 
 WHITE = 255, 255, 255
 
@@ -32,33 +33,23 @@ class Player:
         self.rect = self.surface.get_rect(topleft = (pos_x, pos_y))
         self.is_jumping = False
         self.jump_count = 10 
+        self.gravity = 1
 
     def jump(self):
         if not self.is_jumping:
             self.is_jumping = True
-            self.jump_count = 10 
+            self.gravity -= 20 
 
     def player_movement(self, keys):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP] and not self.is_jumping:
-            self.jump()
-
-        if self.is_jumping:
-            if self.jump_count >= -10:
-                neg = 1
-                if self.jump_count < 0:
-                    neg = -1
-                self.rect.y -= (self.jump_count ** 2) * 0.5 * neg
-                self.jump_count -= 1
-            else:
-                self.is_jumping = False
+        keys = pygame.key.get_pressed()        #keys is an array of all the possible keyboard inputs 
+        
+        if keys[pygame.K_UP]:
+            if self.is_jumping == False:
+                self.jump()
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.speed
         if keys[pygame.K_RIGHT]:
-            self.rect.x += self.speed
-        
-        self.rect.y -= (self.jump_count ** 2) * 0.5 * -1 #gravity
-
+            self.rect.x += self.speed 
 
     def draw(self, screen):
         screen.blit(self.surface, self.rect)
