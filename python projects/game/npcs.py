@@ -13,7 +13,7 @@ class Birds:
         self.surface.set_colorkey(WHITE)
 
     def bird_movement(self):
-        self.pos_x -= self.speed
+        self.pos_x -= self.speed + random.randint(-1, 1)
         if self.pos_x < -100:
             self.pos_x = 1400 + random.randint(0, 400)
             self.pos_y = 50 + random.randint(-20, 20)

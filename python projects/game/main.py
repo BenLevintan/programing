@@ -31,6 +31,7 @@ text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 ground_rect = ground_surface.get_rect(topleft = (0, GROUND_POS_Y))
 
 background_birds = Birds(1300, 50, 4)
+background_birds2 = Birds(1500, 100, 3)
 player = Player(0, 200, 20)
 
 while running:
@@ -50,9 +51,17 @@ while running:
 
     background_birds.bird_movement()
     background_birds.draw(screen)
+    background_birds2.bird_movement()
+    background_birds2.draw(screen)
 
     if player.rect.colliderect(ground_rect):
         player.rect.y = GROUND_POS_Y - player.rect.height
+
+
+    mouse_pos = pygame.mouse.get_pos()
+    if player.rect.collidepoint((mouse_pos)):
+
+        print('the player')
 
     pygame.display.update()
     clock.tick(60)
