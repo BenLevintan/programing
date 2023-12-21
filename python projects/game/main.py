@@ -17,6 +17,8 @@ WIN_WIDTH, WIN_HEIGHT = 1280, 720
 GROUND_POS_Y = WIN_HEIGHT - 60
 
 HEADLINE_TEXT = (20, 20)
+PLAYER_SPAWN = 0, 200
+PLAYER_SPEED = 20
 
 screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  #creating a game screen
 pygame.display.set_caption("Game Title")                   #name of the game window
@@ -24,9 +26,17 @@ pygame.display.set_caption("Game Title")                   #name of the game win
 clock = pygame.time.Clock()
 running = True
 
-FONT_SIZE = 50
+FONT_SIZE = 30
 FONT_TYPE = 'assets/fonts/Pixle_Font.ttf'
+TIME_COLOR = (64, 64, 64)
+TIME_POS = 20, 80
 test_font = pygame.font.Font(FONT_TYPE, FONT_SIZE)
+
+def display_time():
+    current_time = int(pygame.time.get_ticks()/1000)
+    time_surface = test_font.render(f'Time: {current_time}', False, TIME_COLOR)
+    time_rect = time_surface.get_rect(topleft = TIME_POS)
+    screen.blit(time_surface, time_rect)
 
 sky_surface = pygame.image.load('assets/background1.png')
 ground_surface = pygame.image.load('assets/ground1.png')
@@ -36,7 +46,7 @@ text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 background_birds = Birds(1300, 50, 4)
 background_birds2 = Birds(1500, 100, 3)
 
-player = Player(0, 200, 20)
+player = Player(PLAYER_SPAWN, PLAYER_SPEED)
 
 while running:
     for event in pygame.event.get(): 
@@ -59,12 +69,14 @@ while running:
     background_birds2.draw(screen)
 
     player.gravity += 1
-    player.rect.y += player.gravity  
+    player.rect.y += player.gravity
 
     if player.rect.colliderect(ground_rect):
         player.rect.y = GROUND_POS_Y - player.rect.height
         player.gravity = 0
         player.is_jumping = False
+
+    display_time()
 
     pygame.display.update()
     clock.tick(FRAME_RATE)

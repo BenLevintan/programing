@@ -6,7 +6,7 @@ class Physics:
     def __init__(self):
         self.gravity = 1  # You can adjust the gravity value as needed
 
-    def gravity(self, falling_object):
+    def free_fall(self, falling_object):
         falling_object.pos.y += falling_object.vel.y
         falling_object.vel.y += self.gravity
 
