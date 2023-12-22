@@ -1,7 +1,6 @@
 import pygame
 import sys
 import random
-from player import Player
 from npcs import Birds, Player
 
 pygame.init()
@@ -38,8 +37,8 @@ def display_time():
     time_rect = time_surface.get_rect(topleft = TIME_POS)
     screen.blit(time_surface, time_rect)
 
-sky_surface = pygame.image.load('assets/background1.png')
-ground_surface = pygame.image.load('assets/ground1.png')
+sky_surface = pygame.image.load('assets/background1.png').convert_alpha()
+ground_surface = pygame.image.load('assets/ground1.png').convert_alpha()
 ground_rect = ground_surface.get_rect(topleft = (0, GROUND_POS_Y))
 text_surface = test_font.render('Hello Player', ANTI_ALIASING, WHITE)
 
