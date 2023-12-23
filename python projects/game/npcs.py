@@ -23,15 +23,39 @@ class Birds:
     def draw(self, screen):
         screen.blit(self.surface, (self.pos_x, self.pos_y))
 
+SNAIL_SIZE = 50, 40
 
-PLAYER_SIZE = 50, 70
+class Snail:
+    def __init__(self, pos, speed):
+        self.pos_x = pos[0]
+        self.pos_y = pos[1]
+        self.speed = speed
+        self.surface = pygame.image.load('assets/characters/snail.png').convert_alpha()
+        self.surface = pygame.transform.scale(self.surface, SNAIL_SIZE)
+        self.surface.set_colorkey(WHITE)
+        self.rect = self.surface.get_rect(topleft=(self.pos_x, self.pos_y))
+        self.is_jumping = True
+
+    def snail_movement(self, pos):
+        self.pos_x -= self.speed
+        if self.pos_x < -100:
+            self.pos_x = pos[0]
+            self.pos_y = pos[1]   
+
+        self.rect.topleft = (self.pos_x, self.pos_y)
+
+    def draw(self, screen):
+        screen.blit(self.surface, (self.pos_x, self.pos_y))
+
+PLAYER_SIZE = 50, 50
 
 class Player:
     def __init__(self, pos, speed):
         self.pos_x = pos[0]
         self.pos_y = pos[1]
         self.speed = speed
-        self.surface = pygame.image.load('assets/characters/main2.png').convert_alpha()
+        self.surface = pygame.image.load('assets/characters/main3.png').convert_alpha()
+        self.surface = pygame.transform.scale(self.surface, PLAYER_SIZE)
         self.surface.set_colorkey(WHITE)
         self.surface_mirror = pygame.transform.flip(self.surface, True, False)
         self.surface_mirror.set_colorkey(WHITE)  # Set color key after flipping
