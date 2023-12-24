@@ -1,6 +1,9 @@
+#python3.11.4
+
 import pygame
 import sys
 import random
+import time
 from npcs import Birds, Player, Snail
 
 pygame.init()
@@ -31,6 +34,7 @@ TIME_COLOR = (64, 64, 64)
 TIME_POS = 20, 80
 SNAIL_SPAWN = 1400, GROUND_POS_Y - 40
 SNAIL_SPEED = 5
+SNAIL_SPAWN2 = 1600, GROUND_POS_Y - 40
 
 test_font = pygame.font.Font(FONT_TYPE, FONT_SIZE)
 
@@ -49,6 +53,7 @@ background_birds = Birds(1300, 50, 4)
 background_birds2 = Birds(1500, 100, 3)
 
 enemy_snail = Snail(SNAIL_SPAWN, SNAIL_SPEED)
+enemy_snail2 = Snail(SNAIL_SPAWN2, SNAIL_SPEED + 2)
 
 player = Player(PLAYER_SPAWN, PLAYER_SPEED)
 
@@ -77,9 +82,11 @@ while running:
 
     enemy_snail.snail_movement(SNAIL_SPAWN)
     enemy_snail.draw(screen)
+    enemy_snail2.snail_movement(SNAIL_SPAWN)
+    enemy_snail2.draw(screen)
 
-    if player.rect.colliderect(enemy_snail.rect) or player.rect.y > 1500:
-        print("i hit the snail")
+    if player.rect.colliderect(enemy_snail.rect) or player.rect.colliderect(enemy_snail2.rect) or player.rect.y > 1500:
+       # time.sleep(0.5)
         running = False  
 
     if player.rect.colliderect(ground_rect):
