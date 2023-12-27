@@ -35,17 +35,18 @@ class Snail:
         self.surface.set_colorkey(WHITE)
         self.rect = self.surface.get_rect(topleft=(self.pos_x, self.pos_y))
         self.is_jumping = True
+        self.gravity = 1
 
     def snail_movement(self, pos):
         self.pos_x -= self.speed
         if self.pos_x < -100:
             self.pos_x = pos[0]
             self.pos_y = pos[1]   
-
+        
         self.rect.topleft = (self.pos_x, self.pos_y)
 
     def draw(self, screen):
-        screen.blit(self.surface, (self.pos_x, self.pos_y))
+        screen.blit(self.surface, self.rect.topleft)
 
 PLAYER_SIZE = 50, 50
 
