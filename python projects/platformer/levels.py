@@ -11,8 +11,7 @@ WIN_WIDTH, WIN_HEIGHT = 1280, 720
 FPS = 60
 PLAYER_VEL = 5
 
-def load(cls):
-
+def load(function):
     print("started loading")
     # Define a wrapper function that will be used as the new constructor
     def wrapper(*args, **kwargs):
@@ -34,8 +33,9 @@ def load(cls):
     
 
 @load
-class level1():
-    pass
+def level1():
+    get_background('Blue.png')
+    draw(get_background('Blue.png'))
 
 
 
@@ -50,6 +50,11 @@ def get_background(name):
             tiles.append(pos)
         
     return tiles, image
+
+
+def draw(window, background, bg_image):
+    for tile in background:
+        window.blit(bg_image, tuple(tile))
+
+    pygame.display.update()
     
-
-
