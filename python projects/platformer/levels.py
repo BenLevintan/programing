@@ -12,30 +12,13 @@ FPS = 60
 PLAYER_VEL = 5
 
 def load(function):
-    print("started loading")
-    # Define a wrapper function that will be used as the new constructor
-    def wrapper(*args, **kwargs):
-        # Instantiate an object of the original class
-        instance = cls(*args, **kwargs)
-
-        # Call all methods within the class
-        for name, method in cls.__dict__.items():
-            # Check if the item is a method (callable) and exclude special methods
-            if callable(method) and not name.startswith("__"):
-                # Call the method for the instance
-                method(instance)
-
-        # Return the instance
-        return instance
-
-    # Return the wrapper function
-    return wrapper
+    pass
     
 
 @load
 def level1():
     get_background('Blue.png')
-    draw(get_background('Blue.png'))
+
 
 
 
