@@ -15,6 +15,7 @@ FPS = 60
 PLAYER_VEL = 5
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+player = Player(100, 100, 50, 50)
 
 def main(window):
     clock = pygame.time.Clock()
@@ -23,7 +24,6 @@ def main(window):
     while run:
         clock.tick(FPS)
 
-        player = Player(100, 100, 50, 50)
 
 
         for event in pygame.event.get():
@@ -32,8 +32,11 @@ def main(window):
                 break
 
         backgound = get_background(window, "level1.png")
-        draw(window, backgound, player)
 
+        player.loop(FPS)
+        player.handle_move()
+        draw(window, backgound, player)
+        print(player.rect)
         # Update the display
         pygame.display.update()
 

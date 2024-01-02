@@ -5,6 +5,12 @@ pygame.init()
 
 PLAYER_VEL = 5
 
+def print_function_name(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} function")
+        return func(*args, **kwargs)
+    return wrapper
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
@@ -15,9 +21,11 @@ class Player(pygame.sprite.Sprite):
         self.animation_count = 0
         self.COLOR = 233, 23, 23
 
+
     def move(self, dx, dy):
         self.rect.x += dx
         self.rect.y += dy
+
 
     def move_left(self, vel):
         self.x_vel = -vel
@@ -25,11 +33,13 @@ class Player(pygame.sprite.Sprite):
             self.direction = "left"
             self.animation_count = 0    #restart the animation
 
+
     def move_right(self, vel):
         self.x_vel = vel
         if self.direction != "right":    #face the player to the right
             self.direction = "right"
             self.animation_count = 0     #reset animation
+
 
     def loop(self, fps):
         self.move(self.x_vel, self.y_vel)
@@ -37,7 +47,8 @@ class Player(pygame.sprite.Sprite):
     def draw(self, window):
         pygame.draw.rect(window, self.COLOR, self.rect)
 
-    def movment(self):
+
+    def handle_move(self):
         keys = pygame.key.get_pressed()
 
         self.x_vel = 0
