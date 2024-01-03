@@ -4,8 +4,6 @@ import pygame
 from os import listdir
 from os.path import isfile, join
 
-def init():
-    pygame.init()
 
 def get_background(window, name):
     image_path = "assets/Background/" + name
@@ -37,9 +35,9 @@ def draw(window, background, player):
 def flip(sprites):
     return [pygame.transform.flip(sprite, True, False) for sprite in sprites]
 
-def load_sprite_sheets(dir1, dir2, width, height, direction=False):
-    init()  # Initialize Pygame
 
+def load_sprite_sheets(dir1, dir2, width, height, direction=False):
+    pygame.display.set_mode()
     path = join("assets", dir1, dir2)
     images = [f for f in listdir(path) if isfile(join(path, f))]
 

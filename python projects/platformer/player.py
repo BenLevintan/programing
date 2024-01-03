@@ -60,7 +60,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def draw(self, window):
-        pygame.draw.rect(window, self.COLOR, self.rect)
+        self.sprtie = self.SPRITES["idle_right"][0]
+        window.blit(self.sprtie, (self.rect.x, self.rect.y))
 
 
     def handle_move(self):
