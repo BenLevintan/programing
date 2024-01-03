@@ -29,7 +29,7 @@ def get_background(window, name):
     return scaled_background
 
 def draw(window, background, player):
-    window.blit(background, (0, 0))
+    window.blit(background, (-50, 0))
     player.draw(window)
 
 def flip(sprites):

@@ -12,7 +12,6 @@ pygame.display.set_caption("Platformer")
 
 WIN_WIDTH, WIN_HEIGHT = 1280, 720
 FPS = 60
-PLAYER_VEL = 5
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
@@ -33,7 +32,7 @@ def main(window):
         player.handle_move()
         player.loop(FPS)
 
-        background = get_background(window, "level1.png")
+        background = get_background(window, "lvl1.png")
         draw(window, background, player)
         # Update the display
         pygame.display.update()

@@ -1,4 +1,5 @@
 # player
+from typing import Any
 import pygame
 from utils import load_sprite_sheets
 
@@ -14,7 +15,7 @@ def print_function_name(func):
 
 class Player(pygame.sprite.Sprite):
 
-    PLAYER_VEL = 5
+    PLAYER_VEL = 7
     GRAVITY = 1
     TERMINAL_VELOCITY = 10
 
@@ -52,16 +53,29 @@ class Player(pygame.sprite.Sprite):
 
 
     def loop(self, fps):
-        self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
+        #self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
         self.y_vel = min(self.y_vel, self.TERMINAL_VELOCITY)
 
         self.fall_count += 2
+        self.update_sprite()
 
+
+    def update_sprite(self):
+        sprite_sheet = "idle"
+        if self.x_vel != 0:
+            sprite_sheet = "run"
+
+        sprite_sheet_name = sprite_sheet + "_" + self.direction
+        sprites = self.SPRITES[sprite_sheet_name]
+        sprite_index = (self.animation_count //
+                        self.ANIMATION_DELAY) % len(sprites)
+        self.sprite = sprites[sprite_index]
+        self.animation_count += 1
+        self.update()
 
     def draw(self, window):
-        self.sprtie = self.SPRITES["idle_right"][0]
-        window.blit(self.sprtie, (self.rect.x, self.rect.y))
+        window.blit(self.sprite, (self.rect.x, self.rect.y))
 
 
     def handle_move(self):
