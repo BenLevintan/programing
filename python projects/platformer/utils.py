@@ -1,5 +1,5 @@
 #utlis
-
+import os
 import pygame
 from os import listdir
 from os.path import isfile, join
@@ -37,7 +37,9 @@ def flip(sprites):
 
 
 def load_sprite_sheets(dir1, dir2, width, height, direction=False):
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "20,50"
     pygame.display.set_mode()
+    
     path = join("assets", dir1, dir2)
     images = [f for f in listdir(path) if isfile(join(path, f))]
 
@@ -61,4 +63,11 @@ def load_sprite_sheets(dir1, dir2, width, height, direction=False):
 
     return all_sprites
 
+def get_block(size):
+    path = join("assets", "Terrain", "Terrain.png")
+    image = pygame.image.load(path).convert_alpha()
+    surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
+    rect = pygame.Rect(96, 0, size, size)
+    surface.blit(image, (0, 0), rect)
+    return pygame.transform.scale2x(surface)
    

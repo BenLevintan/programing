@@ -1,7 +1,6 @@
 import pygame
 import sys
 import random
-from physics import Physics
 
 WHITE = 255, 255, 255
 BIRD_RAND_SPEED_FACTOR =  1
