@@ -15,6 +15,7 @@ FPS = 60
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
+
 def main(window):
     clock = pygame.time.Clock()
 
@@ -32,7 +33,7 @@ def main(window):
         player.handle_move()
         player.loop(FPS)
 
-        background = get_background(window, "lvl1.png")
+        background = get_background(window, "lvl3.png")
         draw(window, background, player)
         # Update the display
         pygame.display.update()

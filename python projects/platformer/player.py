@@ -1,11 +1,8 @@
 # player
-from typing import Any
 import pygame
 from utils import load_sprite_sheets
 
 pygame.init()
-
-
 
 def print_function_name(func):
     def wrapper(*args, **kwargs):
@@ -15,7 +12,7 @@ def print_function_name(func):
 
 class Player(pygame.sprite.Sprite):
 
-    PLAYER_VEL = 7
+    PLAYER_VEL = 10
     GRAVITY = 1
     TERMINAL_VELOCITY = 10
 
