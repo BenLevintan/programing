@@ -3,7 +3,7 @@ import os
 import pygame
 from utils import get_background, draw
 from player import Player
-from levels import floor, destroy_level
+from levels import floor, destroy_level, create_level
 
 pygame.init()
 
@@ -11,6 +11,7 @@ pygame.display.set_caption("Platformer")
 
 WIN_WIDTH, WIN_HEIGHT = 1280, 720
 FPS = 60
+BLOCK_SIZE = 96
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
@@ -18,7 +19,7 @@ def main(window):
     clock = pygame.time.Clock()
 
     player = Player(100, 100, 50, 50)
-    level_objects = floor(window, 64)  # Adjust the block_size as needed
+    level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
 
     run = True
     while run:
