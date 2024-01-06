@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
     ANIMATION_DELAY = 3
 
     def __init__(self, x, y, width, height):
+        super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
         self.x_vel = 0
         self.y_vel = 0

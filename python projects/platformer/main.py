@@ -1,10 +1,9 @@
 # main.py
 import os
-import random
-import math
 import pygame
 from utils import get_background, draw
 from player import Player
+from levels import floor, destroy_level
 
 pygame.init()
 
@@ -15,11 +14,11 @@ FPS = 60
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
-
 def main(window):
     clock = pygame.time.Clock()
 
     player = Player(100, 100, 50, 50)
+    level_objects = floor(window, 64)  # Adjust the block_size as needed
 
     run = True
     while run:
@@ -35,8 +34,15 @@ def main(window):
 
         background = get_background(window, "lvl3.png")
         draw(window, background, player)
-        # Update the display
+
+        # Draw level objects
+        for obj in level_objects:
+            obj.draw(window, 0)  # The offset_x is set to 0, adjust if needed
+
         pygame.display.update()
+
+    # Destroy level objects when exiting the level
+    destroy_level(level_objects)
 
     pygame.quit()
     quit()
