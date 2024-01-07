@@ -37,6 +37,8 @@ def main(window):
         player.handle_move(level_objects)
         draw(window, background, player)
 
+        print(player.rect)
+
         # Draw level objects
         for obj in level_objects:
             obj.draw(window, 0)  # The offset_x is set to 0, adjust if needed

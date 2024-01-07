@@ -13,9 +13,9 @@ def print_function_name(func):
 
 class Player(pygame.sprite.Sprite):
 
-    PLAYER_VEL = 10
+    PLAYER_VEL = 6
     GRAVITY = 3
-    TERMINAL_VELOCITY = 10
+    TERMINAL_VELOCITY = 20
 
     SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
     ANIMATION_DELAY = 3
@@ -29,8 +29,15 @@ class Player(pygame.sprite.Sprite):
         self.direction = "right"
         self.animation_count = 0
         self.COLOR = 233, 23, 23
+        self.jump_count = 2
         self.fall_count = 0 #counts the frames of which player been falling
 
+    def jump(self):
+        self.y_vel = -self.GRAVITY * 5
+        self.animation_count = 0 
+        self.jump_count += 1
+        if self.jump_count == 1:
+            self.fall_count = 0
 
     def move(self, dx, dy):
         self.rect.x += dx
@@ -112,5 +119,8 @@ class Player(pygame.sprite.Sprite):
             self.move_left(self.PLAYER_VEL)
         if keys[pygame.K_RIGHT]:
             self.move_right(self.PLAYER_VEL)
+        if keys[pygame.K_UP]:
+            if self.jump_count < 2:
+                self.jump()
 
         self.handle_vertical_collision(objects, self.y_vel)
