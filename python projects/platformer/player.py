@@ -28,11 +28,11 @@ class Player(pygame.sprite.Sprite):
         self.mask = None
         self.direction = "right"
         self.animation_count = 0
-        self.COLOR = 233, 23, 23
         self.jump_count = 2
         self.fall_count = 0 #counts the frames of which player been falling
 
     def jump(self):
+        self.rect.y -= 1
         self.y_vel = -self.GRAVITY * 5
         self.animation_count = 0 
         self.jump_count += 1
@@ -72,12 +72,18 @@ class Player(pygame.sprite.Sprite):
         self.jump_count = 0
 
     def hit_head(self):
-        self.count = 0
-        self.y_vel *= -1
+        self.y_vel = 0
 
     def update_sprite(self):
         sprite_sheet = "idle"
-        if self.x_vel != 0:
+        if self.y_vel < 0:
+            if self.jump_count == 1:
+                sprite_sheet = "jump"
+            elif self.jump_count == 2:
+                sprite_sheet = "double_jump"
+        elif self.y_vel > self.GRAVITY * 2:
+            sprite_sheet = "fall"
+        elif self.x_vel != 0:
             sprite_sheet = "run"
 
         sprite_sheet_name = sprite_sheet + "_" + self.direction
@@ -120,7 +126,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             self.move_right(self.PLAYER_VEL)
         if keys[pygame.K_UP]:
-            if self.jump_count < 2:
+            if  self.jump_count < 2:
                 self.jump()
 
         self.handle_vertical_collision(objects, self.y_vel)
+
+#bug report: standing on the edge of the block causes a fall loop
+#
