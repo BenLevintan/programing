@@ -5,16 +5,13 @@
 
 import pygame
 from utils import load_sprite_sheets, get_block
-from objects import Block
+from objects import Block, Object
 
 def create_level(window, block_size):
     level_objects = []
 
     # Define the position and size of the blocks in the level
     block_positions = [
-        (0, 0),
-        (2, 0),
-        (4, 5),
         (5, 5),
         (6, 5),
         # Add more block positions as needed

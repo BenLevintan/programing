@@ -15,11 +15,13 @@ BLOCK_SIZE = 96
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
+
 def main(window):
     clock = pygame.time.Clock()
 
     player = Player(100, 100, 50, 50)
     level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
+    background = get_background(window, "lvl3.png")
 
     run = True
     while run:
@@ -30,10 +32,9 @@ def main(window):
                 run = False
                 break
 
-        player.handle_move()
-        player.loop(FPS)
 
-        background = get_background(window, "lvl3.png")
+        player.loop(FPS)
+        player.handle_move(level_objects)
         draw(window, background, player)
 
         # Draw level objects

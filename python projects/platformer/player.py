@@ -1,6 +1,7 @@
 # player
 import pygame
 from utils import load_sprite_sheets
+from objects import Object, Block
 
 pygame.init()
 
@@ -13,7 +14,7 @@ def print_function_name(func):
 class Player(pygame.sprite.Sprite):
 
     PLAYER_VEL = 10
-    GRAVITY = 1
+    GRAVITY = 3
     TERMINAL_VELOCITY = 10
 
     SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
@@ -51,13 +52,21 @@ class Player(pygame.sprite.Sprite):
 
 
     def loop(self, fps):
-        #self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
+        self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
         self.y_vel = min(self.y_vel, self.TERMINAL_VELOCITY)
 
-        self.fall_count += 2
+        self.fall_count += 1
         self.update_sprite()
 
+    def landed(self):
+        self.fall_count = 0
+        self.y_vel = 0
+        self.jump_count = 0
+
+    def hit_head(self):
+        self.count = 0
+        self.y_vel *= -1
 
     def update_sprite(self):
         sprite_sheet = "idle"
@@ -71,12 +80,31 @@ class Player(pygame.sprite.Sprite):
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
         self.update()
+    
+    def update(self):
+        self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
+        self.mask = pygame.mask.from_surface(self.sprite)
 
     def draw(self, window):
         window.blit(self.sprite, (self.rect.x, self.rect.y))
 
+    def handle_vertical_collision(self, objects, dy):
+        collided_objects = []
+        for obj in objects:
+            #if type(obj) is Object:    testing if obj is an Object type
+                if  pygame.sprite.collide_mask(self, obj): # no collision is detected if obj is Object type 
+                    if dy > 0:
+                        self.rect.bottom = obj.rect.top
+                        self.landed()
+                    elif dy < 0:
+                        self.rect.top = obj.rect.bottom
+                        self.hit_head()
 
-    def handle_move(self):
+                collided_objects.append(obj)
+
+        return collided_objects
+
+    def handle_move(self, objects):
         keys = pygame.key.get_pressed()
 
         self.x_vel = 0
@@ -84,3 +112,5 @@ class Player(pygame.sprite.Sprite):
             self.move_left(self.PLAYER_VEL)
         if keys[pygame.K_RIGHT]:
             self.move_right(self.PLAYER_VEL)
+
+        self.handle_vertical_collision(objects, self.y_vel)

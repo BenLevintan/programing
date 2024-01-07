@@ -23,7 +23,6 @@ class Block(Object):
         self.image.blit(block, (0, 0))
         self.mask = pygame.mask.from_surface(self.image)
 
-
 def get_block(pos_x, pos_y, size):  # coords of a block in the png(96, 0 xy for example) 
     path = join("assets", "Terrain", "Terrain.png")
     image = pygame.image.load(path).convert_alpha()
