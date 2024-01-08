@@ -18,7 +18,7 @@ def create_level(window, block_size):
     ]
 
     for pos_x, pos_y in block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size, 96, 0, block_size)
+        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
         level_objects.append(block)
 
 

@@ -22,8 +22,11 @@ def main(window):
     player = Player(100, 100, 50, 50)
     level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
     background = get_background(window, "lvl3.png")
+    keys = pygame.key.get_pressed()
 
     run = True
+    game_paused = False
+
     while run:
         clock.tick(FPS)
 
@@ -31,17 +34,22 @@ def main(window):
             if event.type == pygame.QUIT:
                 run = False
                 break
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                game_paused = not game_paused
 
+        if not game_paused:
+            player.loop(FPS)
+            player.handle_move(level_objects)
+            draw(window, background, player)
 
-        player.loop(FPS)
-        player.handle_move(level_objects)
-        draw(window, background, player)
-
-        print(player.rect)
+            print(player.rect)
 
         # Draw level objects
         for obj in level_objects:
             obj.draw(window, 0)  # The offset_x is set to 0, adjust if needed
+
+        if keys[pygame.K_RIGHT]:
+            game_paused = True
 
         pygame.display.update()
 
