@@ -12,21 +12,22 @@ def create_level(window, block_size):
 
     # Define the position and size of the blocks in the level
     block_positions = [
-        (5, 4),
-        (6, 4),
+        (5, 5),
+        (5, 6),
+        (6, 5),
         # Add more block positions as needed
     ]
 
     for pos_x, pos_y in block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
+        block = Block(pos_x * block_size, pos_y * block_size , 0, 0, block_size)
         level_objects.append(block)
 
 
 #creating the floor
-    num_blocks = 2 * window.get_width() // block_size
+    num_blocks = 5 * window.get_width() // block_size
 
     for i in range(num_blocks):
-        block = Block(i * block_size, window.get_height() - block_size, 96, 0, block_size)
+        block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
         level_objects.append(block)
 
    

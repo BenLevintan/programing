@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 3
     TERMINAL_VELOCITY = 20
 
-    SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
+    SPRITES = load_sprite_sheets("MainCharacters", "NinjaFrog", 32, 32, True)
     ANIMATION_DELAY = 3
 
     def __init__(self, x, y, width, height):
