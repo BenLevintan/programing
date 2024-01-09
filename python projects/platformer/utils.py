@@ -19,9 +19,11 @@ def get_background(window, name):
 
     return scaled_background
 
-def draw(window, background, player):
-    window.blit(background, (-50, 0))
-    player.draw(window)
+def draw(window, background, player, level_objects, offset_x):
+    window.blit(background, (-150 - offset_x // 8 , 0))
+    player.draw(window, offset_x)
+    for obj in level_objects:
+        obj.draw(window, offset_x) 
 
 def flip(sprites):
     return [pygame.transform.flip(sprite, True, False) for sprite in sprites]

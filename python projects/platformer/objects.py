@@ -30,3 +30,4 @@ def get_block(pos_x, pos_y, size):  # coords of a block in the png(96, 0 xy for 
     rect = pygame.Rect(pos_x, pos_y, size, size)
     surface.blit(image, (0, 0), rect)
     return pygame.transform.scale2x(surface)
+

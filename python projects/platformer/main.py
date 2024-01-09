@@ -14,18 +14,22 @@ FPS = 60
 BLOCK_SIZE = 96
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+keys = pygame.key.get_pressed()
+
 
 
 def main(window):
     clock = pygame.time.Clock()
 
     player = Player(100, 100, 50, 50)
-    level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
     background = get_background(window, "lvl3.png")
-    keys = pygame.key.get_pressed()
 
     run = True
     game_paused = False
+    level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
+
+    offset_x = 0
+    scroll_area_width = 200
 
     while run:
         clock.tick(FPS)
@@ -40,16 +44,15 @@ def main(window):
         if not game_paused:
             player.loop(FPS)
             player.handle_move(level_objects)
-            draw(window, background, player)
+            draw(window, background, player, level_objects, offset_x)
 
-            print(player.rect)
+            #print(player.rect)
 
-        # Draw level objects
-        for obj in level_objects:
-            obj.draw(window, 0)  # The offset_x is set to 0, adjust if needed
+        if ((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (
+                (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
+            offset_x += player.x_vel
 
-        if keys[pygame.K_RIGHT]:
-            game_paused = True
+
 
         pygame.display.update()
 

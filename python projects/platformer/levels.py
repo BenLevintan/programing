@@ -4,7 +4,7 @@
 # levels should be stored as data (array for the floor, Block type for blocks, etc..)
 
 import pygame
-from utils import load_sprite_sheets, get_block
+from utils import load_sprite_sheets, get_block, get_background
 from objects import Block, Object
 
 def create_level(window, block_size):
@@ -28,6 +28,8 @@ def create_level(window, block_size):
     for i in range(num_blocks):
         block = Block(i * block_size, window.get_height() - block_size, 96, 0, block_size)
         level_objects.append(block)
+
+   
 
     return level_objects
 
