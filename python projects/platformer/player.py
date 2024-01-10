@@ -31,8 +31,8 @@ class Player(pygame.sprite.Sprite):
         self.jump_count = 2
         self.fall_count = 0 #counts the frames of which player been falling
 
+    @print_function_name
     def jump(self):
-        self.rect.y -= 4
         self.y_vel = -self.GRAVITY * 5
         self.animation_count = 0 
         self.jump_count += 1
@@ -66,6 +66,7 @@ class Player(pygame.sprite.Sprite):
         self.fall_count += 1
         self.update_sprite()
 
+    @print_function_name
     def landed(self):
         self.fall_count = 0
         self.y_vel = 0
@@ -101,12 +102,13 @@ class Player(pygame.sprite.Sprite):
     def draw(self, window, offset_x):
         window.blit(self.sprite, (self.rect.x - offset_x, self.rect.y))
 
+    @print_function_name
     def handle_vertical_collision(self, objects, dy):
         collided_objects = []
         for obj in objects:
             #if type(obj) is Object:    testing if obj is an Object type
                 if  pygame.sprite.collide_mask(self, obj): # no collision is detected if obj is Object type 
-                    if dy > 0:
+                    if dy > 0 :
                         self.rect.bottom = obj.rect.top
                         self.landed()
                     elif dy < 0:
@@ -116,13 +118,32 @@ class Player(pygame.sprite.Sprite):
                 collided_objects.append(obj)
 
         return collided_objects
+    
+    @print_function_name
+    def collide(self, objects, dx):
+        self.move(dx, 0)
+        self.update()
+        collided_objects = None
+        for obj in objects:
+            if pygame.sprite.collide_mask(self, obj):
+                collided_objects = obj
+                break
 
+        self.move(-dx, 0)
+        self.update()
+
+        return collided_objects
+
+    @print_function_name
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
         self.x_vel = 0
-        if keys[pygame.K_LEFT]:
+        collide_left = self.collide(objects, -self.PLAYER_VEL * 0.5)
+        collide_right = self.collide(objects, self.PLAYER_VEL * 0.5)
+
+        if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and not collide_right:
             self.move_right(self.PLAYER_VEL)
         if keys[pygame.K_UP] and not self.up_key_pressed:
             if  self.jump_count < 2:
@@ -131,5 +152,6 @@ class Player(pygame.sprite.Sprite):
         self.up_key_pressed = keys[pygame.K_UP]
         self.handle_vertical_collision(objects, self.y_vel)
 
+
 #bug report: *  standing on the edge of the block causes a fall loop
-#            *  first jump has the 2nd jump animation 
+#          

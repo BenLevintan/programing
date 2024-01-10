@@ -29,7 +29,7 @@ def main(window):
     game_paused = False
     level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
 
-    scroll_area_width = 200
+    scroll_area_width = 350
     offset_x = PLAYER_SPAWN - scroll_area_width
 
     while run:
@@ -47,7 +47,7 @@ def main(window):
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
 
-            #print(player.rect)
+            print(player.rect)
 
         if((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
@@ -55,7 +55,7 @@ def main(window):
 
         if(player.rect.y > 2000):
             player.rect.y = 100
-            player.rect.x = 200
+            player.rect.x = PLAYER_SPAWN
             player.y_vel = 0
             offset_x = 0
 

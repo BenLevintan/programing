@@ -15,6 +15,9 @@ def create_level(window, block_size):
         (5, 5),
         (5, 6),
         (6, 5),
+        (8, 4),
+        (9, 4),
+        (12, 6)
         # Add more block positions as needed
     ]
 
