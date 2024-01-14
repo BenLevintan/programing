@@ -30,8 +30,9 @@ def create_level(window, block_size):
     num_blocks = 5 * window.get_width() // block_size
 
     for i in range(num_blocks):
-        block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
-        level_objects.append(block)
+        if i % 5 != 0 :
+            block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
+            level_objects.append(block)
 
    
 

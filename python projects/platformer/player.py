@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 3
     TERMINAL_VELOCITY = 20
 
-    SPRITES = load_sprite_sheets("MainCharacters", "NinjaFrog", 32, 32, True)
+    SPRITES = load_sprite_sheets("MainCharacters", "VirtualGuy", 32, 32, True)
     ANIMATION_DELAY = 3
 
     def __init__(self, x, y, width, height):
@@ -62,8 +62,8 @@ class Player(pygame.sprite.Sprite):
         self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
         self.y_vel = min(self.y_vel, self.TERMINAL_VELOCITY)
-
         self.fall_count += 1
+
         self.update_sprite()
 
     @print_function_name
@@ -77,6 +77,7 @@ class Player(pygame.sprite.Sprite):
 
     def update_sprite(self):
         sprite_sheet = "idle"
+
         if self.y_vel < 0:
             if self.jump_count == 1:
                 sprite_sheet = "jump"
@@ -87,28 +88,30 @@ class Player(pygame.sprite.Sprite):
         elif self.x_vel != 0:
             sprite_sheet = "run"
 
+        # Check if the player is on the ground and adjust the sprite sheet accordingly
+        if self.y_vel == 0:
+            sprite_sheet = "idle"
+
         sprite_sheet_name = sprite_sheet + "_" + self.direction
         sprites = self.SPRITES[sprite_sheet_name]
-        sprite_index = (self.animation_count //
-                        self.ANIMATION_DELAY) % len(sprites)
+        sprite_index = (self.animation_count // self.ANIMATION_DELAY) % len(sprites)
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
         self.update()
+
     
     def update(self):
-        self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
+        self.rect = self.sprite.get_rect(bottomleft=(self.rect.x, self.rect.y + self.rect.height))
         self.mask = pygame.mask.from_surface(self.sprite)
 
     def draw(self, window, offset_x):
         window.blit(self.sprite, (self.rect.x - offset_x, self.rect.y))
 
-    @print_function_name
     def handle_vertical_collision(self, objects, dy):
         collided_objects = []
         for obj in objects:
-            #if type(obj) is Object:    testing if obj is an Object type
                 if  pygame.sprite.collide_mask(self, obj): # no collision is detected if obj is Object type 
-                    if dy > 0 :
+                    if dy >= 0 :
                         self.rect.bottom = obj.rect.top
                         self.landed()
                     elif dy < 0:
@@ -119,7 +122,6 @@ class Player(pygame.sprite.Sprite):
 
         return collided_objects
     
-    @print_function_name
     def collide(self, objects, dx):
         self.move(dx, 0)
         self.update()
@@ -134,17 +136,17 @@ class Player(pygame.sprite.Sprite):
 
         return collided_objects
 
-    @print_function_name
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
         self.x_vel = 0
-        collide_left = self.collide(objects, -self.PLAYER_VEL * 0.5)
-        collide_right = self.collide(objects, self.PLAYER_VEL * 0.5)
+        collide_left = self.collide(objects, -self.PLAYER_VEL)
+        collide_right = self.collide(objects, self.PLAYER_VEL)
 
         if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
         if keys[pygame.K_RIGHT] and not collide_right:
             self.move_right(self.PLAYER_VEL)
+            
         if keys[pygame.K_UP] and not self.up_key_pressed:
             if  self.jump_count < 2:
                 self.jump()

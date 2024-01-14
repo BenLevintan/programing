@@ -42,18 +42,22 @@ def main(window):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 game_paused = not game_paused
 
+        # contains all the function that run while the game is not paused 
         if not game_paused:
             player.loop(FPS)
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
 
-            print(player.rect)
+            print("pos: ",player.rect.x, "," ,player.rect.y)
+            print("animation: ",player.animation_count % 11)
 
+        # changes the offset value, so the ellements stay around the player
         if((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
             offset_x += player.x_vel
 
-        if(player.rect.y > 2000):
+        # respawn if falling of the map
+        if(player.rect.y > 1400):
             player.rect.y = 100
             player.rect.x = PLAYER_SPAWN
             player.y_vel = 0
@@ -71,3 +75,6 @@ def main(window):
 
 if __name__ == "__main__":
     main(window)
+
+
+# jumping as you land make player go through the block (down)
