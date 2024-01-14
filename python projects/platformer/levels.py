@@ -17,7 +17,58 @@ def create_level(window, block_size):
         (6, 5),
         (8, 4),
         (9, 4),
-        (12, 6)
+        (12, 6),
+        (12, 3),
+        (13, 3),
+        (14, 3),
+        (16, 6),
+        (16, 5),
+        (17, 6),
+        (20, 4),
+        (21, 4),
+        (22, 4),
+        (23, 4),
+        (25, 6),
+        (25, 5),
+        (26, 6),
+        (28, 4),
+        (29, 4),
+        (32, 6),
+        (32, 3),
+        (33, 3),
+        (34, 3),
+        (32, 2),
+        (33, 2),
+        (34, 2),
+        (32, 1),
+        (33, 1),
+        (34, 1),
+        (36, 6),
+        (36, 5),
+        (37, 6),
+        (40, 4),
+        (41, 4),
+        (42, 4),
+        (43, 4),
+        (45, 6),
+        (45, 5),
+        (46, 6),
+        (48, 4),
+        (49, 4),
+        (52, 6),
+        (52, 3),
+        (53, 3),
+        (54, 3),
+        (56, 6),
+        (56, 5),
+        (57, 6),
+        (60, 4),
+        (61, 4),
+        (62, 4),
+        (63, 4),
+        (68, 4),
+        (69, 4),
+
         # Add more block positions as needed
     ]
 
@@ -26,13 +77,10 @@ def create_level(window, block_size):
         level_objects.append(block)
 
 
-#creating the floor
-    num_blocks = 5 * window.get_width() // block_size
 
-    for i in range(num_blocks):
-        if i % 5 != 0 :
-            block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
-            level_objects.append(block)
+    for i in range(5):
+        block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
+        level_objects.append(block)
 
    
 

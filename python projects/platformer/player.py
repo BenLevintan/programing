@@ -5,6 +5,8 @@ from objects import Object, Block
 
 pygame.init()
 
+## add respawn function
+
 def print_function_name(func):
     def wrapper(*args, **kwargs):
         print(f"Calling {func.__name__} function")
@@ -13,9 +15,9 @@ def print_function_name(func):
 
 class Player(pygame.sprite.Sprite):
 
-    PLAYER_VEL = 6
+    PLAYER_VEL = 7
     GRAVITY = 3
-    TERMINAL_VELOCITY = 20
+    TERMINAL_VELOCITY = 10
 
     SPRITES = load_sprite_sheets("MainCharacters", "VirtualGuy", 32, 32, True)
     ANIMATION_DELAY = 3
@@ -33,7 +35,8 @@ class Player(pygame.sprite.Sprite):
 
     @print_function_name
     def jump(self):
-        self.y_vel = -self.GRAVITY * 5
+        self.rect.y -= 2
+        self.y_vel = -self.GRAVITY * 4
         self.animation_count = 0 
         self.jump_count += 1
         if self.jump_count == 1:
@@ -59,19 +62,19 @@ class Player(pygame.sprite.Sprite):
 
 
     def loop(self, fps):
-        self.y_vel += min (1, (self.fall_count / fps) * self.GRAVITY)
+        self.y_vel += min (1, (self.fall_count / (fps)) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
         self.y_vel = min(self.y_vel, self.TERMINAL_VELOCITY)
         self.fall_count += 1
 
         self.update_sprite()
 
-    @print_function_name
     def landed(self):
         self.fall_count = 0
         self.y_vel = 0
         self.jump_count = 0
 
+    @print_function_name
     def hit_head(self):
         self.y_vel = 0
 
@@ -114,7 +117,7 @@ class Player(pygame.sprite.Sprite):
                     if dy >= 0 :
                         self.rect.bottom = obj.rect.top
                         self.landed()
-                    elif dy < 0:
+                    elif dy < 0 and self.rect.y > obj.rect.y:
                         self.rect.top = obj.rect.bottom
                         self.hit_head()
 
