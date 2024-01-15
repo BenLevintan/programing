@@ -42,18 +42,11 @@ def main(window):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 game_paused = not game_paused
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and player.jump_count < 2:
-                    player.jump()
-
         # contains all the function that run while the game is not paused 
         if not game_paused:
             player.loop(FPS)
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
-
-            print("pos: ",player.rect.x, "," ,player.rect.y)
-            print("animation: ",player.animation_count)
 
         # changes the offset value, so the ellements stay around the player
         if((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (

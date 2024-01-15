@@ -32,11 +32,11 @@ class Player(pygame.sprite.Sprite):
         self.animation_count = 0
         self.jump_count = 2
         self.fall_count = 0 #counts the frames of which player been falling
+        self.jump_hieght = 4
 
     @print_function_name
     def jump(self):
-        self.rect.y -= 2
-        self.y_vel = -self.GRAVITY * 4
+        self.y_vel = -self.GRAVITY * self.jump_hieght
         self.animation_count = 0 
         self.jump_count += 1
         if self.jump_count == 1:
@@ -114,7 +114,7 @@ class Player(pygame.sprite.Sprite):
         collided_objects = []
         for obj in objects:
                 if  pygame.sprite.collide_mask(self, obj): # no collision is detected if obj is Object type 
-                    if dy >= 0 :
+                    if dy >= 0:
                         self.rect.bottom = obj.rect.top
                         self.landed()
                     elif dy < 0 and self.rect.y > obj.rect.y:
@@ -142,8 +142,8 @@ class Player(pygame.sprite.Sprite):
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
         self.x_vel = 0
-        collide_left = self.collide(objects, -self.PLAYER_VEL)
-        collide_right = self.collide(objects, self.PLAYER_VEL)
+        collide_left = self.collide(objects, -self.PLAYER_VEL * 2)
+        collide_right = self.collide(objects, self.PLAYER_VEL * 2)
 
         if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
