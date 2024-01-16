@@ -30,9 +30,7 @@ def flip(sprites):
 
 
 def load_sprite_sheets(dir1, dir2, width, height, direction=False):
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "20,50"
-    pygame.display.set_mode()
-    
+    pygame.display.set_mode((1280, 720))
     path = join("assets", dir1, dir2)
     images = [f for f in listdir(path) if isfile(join(path, f))]
 

@@ -3,7 +3,8 @@ import os
 import pygame
 from utils import get_background, draw
 from player import Player
-from levels import floor, destroy_level, create_level
+from levels import destroy_level, create_level
+from objects import Fire
 
 pygame.init()
 
@@ -45,8 +46,13 @@ def main(window):
         # contains all the function that run while the game is not paused 
         if not game_paused:
             player.loop(FPS)
+            for obj in level_objects:
+                if isinstance(obj, Fire):
+                    obj.loop()
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
+
+        print(obj.rect)
 
         # changes the offset value, so the ellements stay around the player
         if((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (
@@ -54,12 +60,11 @@ def main(window):
             offset_x += player.x_vel
 
         # respawn if falling of the map
-        if(player.rect.y > 1400):
+        if(player.rect.y > 1200):
             player.rect.y = 100
             player.rect.x = PLAYER_SPAWN
             player.y_vel = 0
             offset_x = 0
-
 
 
         pygame.display.update()
@@ -72,6 +77,3 @@ def main(window):
 
 if __name__ == "__main__":
     main(window)
-
-
-# jumping as you land make player go through the block (down)

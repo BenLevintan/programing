@@ -5,7 +5,7 @@
 
 import pygame
 from utils import load_sprite_sheets, get_block, get_background
-from objects import Block, Object
+from objects import Block, Object, Fire
 
 def create_level(window, block_size):
     level_objects = []
@@ -73,42 +73,33 @@ def create_level(window, block_size):
     ]
 
     small_block_positions = [
-
-
-
+        # Add small block positions as needed
     ]
 
     for pos_x, pos_y in big_block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size , 0, 0, block_size)
+        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
         level_objects.append(block)
 
     for pos_x, pos_y in small_block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size , 0, 0, block_size)
+        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
         level_objects.append(block)
-
-
 
     for i in range(5):
-        block = Block(i * block_size , window.get_height() - 0.5 * block_size, 96, 0, block_size)
+        block = Block(i * block_size, window.get_height() - 0.5 * block_size, 96, 0, block_size)
         level_objects.append(block)
 
-   
+    fire_positions = [
+        (300, 300), (500, 300)
+        # Add more fire positions as needed
+    ]
+
+    for pos_x, pos_y in fire_positions:
+        fire = Fire(pos_x, pos_y, 16, 32)
+        fire.on()
+        level_objects.append(fire)
 
     return level_objects
 
-
-def floor(window, block_size):
-    level_objects = []
-
-    # Calculate the number of blocks needed to fill the width of the window
-    num_blocks = window.get_width() // block_size
-
-    # Create a row of blocks for the floor
-    for i in range(num_blocks):
-        block = Block(i * block_size, window.get_height() - block_size, 96, 0, block_size)
-        level_objects.append(block)
-
-    return level_objects
 
 def destroy_level(level_objects):
     # Implement any cleanup or destruction logic here
