@@ -1,6 +1,6 @@
 # player
 import pygame
-from utils import load_sprite_sheets
+from utils import load_sprite_sheets, load_heart_image
 from objects import Object, Block
 
 pygame.init()
@@ -12,6 +12,19 @@ def print_function_name(func):
         print(f"Calling {func.__name__} function")
         return func(*args, **kwargs)
     return wrapper
+
+class Hearts(pygame.sprite.Sprite):
+    def __init__(self, max_life):
+        super().__init__()
+        self.max_life = max_life
+        self.current_life = max_life
+        self.heart_image = load_heart_image()
+        self.heart_rect = self.heart_image.get_rect()
+
+    def draw(self, window):
+        for i in range(self.current_life):
+            window.blit(self.heart_image, (10 + i * (self.heart_rect.width + 5), 10))
+
 
 class Player(pygame.sprite.Sprite):
 
@@ -76,9 +89,8 @@ class Player(pygame.sprite.Sprite):
             self.hit_count += 1
         if self.hit_count > fps * 1:        # 1 second
             self.hit = False
-            self.hit_count = 0
             self.life -= 1
-
+            self.hit_count = 0
 
         self.fall_count += 1
         self.update_sprite()
@@ -109,6 +121,10 @@ class Player(pygame.sprite.Sprite):
         # Check if the player is on the ground and adjust the sprite sheet accordingly
         if self.y_vel == 0:
             sprite_sheet = "idle"
+
+        # Add hit animation
+        if self.hit:
+            sprite_sheet = "hit"
 
         sprite_sheet_name = sprite_sheet + "_" + self.direction
         sprites = self.SPRITES[sprite_sheet_name]
@@ -157,8 +173,8 @@ class Player(pygame.sprite.Sprite):
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
         self.x_vel = 0
-        collide_left = self.collide(objects, -self.PLAYER_VEL * 2)
-        collide_right = self.collide(objects, self.PLAYER_VEL * 2)
+        collide_left = self.collide(objects, -self.PLAYER_VEL)
+        collide_right = self.collide(objects, self.PLAYER_VEL)
 
         if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
@@ -175,7 +191,9 @@ class Player(pygame.sprite.Sprite):
 
         for obj in to_check:
             if obj and obj.name == "fire":
+                self.y_vel = -self.GRAVITY * self.jump_hieght
                 self.make_hit()
+
 
 #bug report: *  standing on the edge of the block causes a fall loop
 #          

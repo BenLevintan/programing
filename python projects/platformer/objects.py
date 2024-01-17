@@ -35,8 +35,8 @@ class Fire(Object):
     ANIMATION_DELAY = 3
 
     def __init__(self, x, y, width, height):
-        super().__init__(x, y, width, height, "fire")
-        self.fire = load_sprite_sheets("Traps", "Fire", width, height)
+        super().__init__(x , y, width, height, "fire")
+        self.fire = load_sprite_sheets("Traps", "Fire", width , height)
         self.image = self.fire["off"][0]
         self.mask = pygame.mask.from_surface(self.image)
         self.animation_count = 0

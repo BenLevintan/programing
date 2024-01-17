@@ -15,9 +15,14 @@ def get_background(window, name):
     scaled_height = int(original_height * scale_factor)
     scaled_background = pygame.transform.scale(background_image, (scaled_width, scaled_height))
 
-    background_rect = scaled_background.get_rect()
-
     return scaled_background
+
+def load_heart_image():
+    path = join("assets", "UI", "heart2.png")
+    original_heart_image = pygame.image.load(path).convert_alpha()
+    scaled_heart_image = pygame.transform.scale(original_heart_image, (original_heart_image.get_width() * 4, original_heart_image.get_height() * 4))
+
+    return scaled_heart_image
 
 def draw(window, background, player, level_objects, offset_x):
     window.blit(background, (-100 - offset_x // 10 , 0))
