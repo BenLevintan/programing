@@ -20,7 +20,7 @@ def get_background(window, name):
     return scaled_background
 
 def draw(window, background, player, level_objects, offset_x):
-    window.blit(background, (-100 - offset_x // 8 , 0))
+    window.blit(background, (-100 - offset_x // 10 , 0))
     player.draw(window, offset_x)
     for obj in level_objects:
         obj.draw(window, offset_x) 

@@ -19,7 +19,6 @@ window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 keys = pygame.key.get_pressed()
 
 
-
 def main(window):
     clock = pygame.time.Clock()
 
@@ -46,13 +45,11 @@ def main(window):
         # contains all the function that run while the game is not paused 
         if not game_paused:
             player.loop(FPS)
-            for obj in level_objects:
-                if isinstance(obj, Fire):
-                    obj.loop()
+            for fire in level_objects:
+                if isinstance(fire, Fire):
+                    fire.loop()
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
-
-        print(obj.rect)
 
         # changes the offset value, so the ellements stay around the player
         if((player.rect.right - offset_x >= WIN_WIDTH - scroll_area_width) and player.x_vel > 0) or (
@@ -61,11 +58,13 @@ def main(window):
 
         # respawn if falling of the map
         if(player.rect.y > 1200):
+            player.life -= 1
             player.rect.y = 100
             player.rect.x = PLAYER_SPAWN
             player.y_vel = 0
             offset_x = 0
 
+        print(player.life)
 
         pygame.display.update()
 

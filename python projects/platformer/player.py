@@ -31,8 +31,11 @@ class Player(pygame.sprite.Sprite):
         self.direction = "right"
         self.animation_count = 0
         self.jump_count = 2
-        self.fall_count = 0 #counts the frames of which player been falling
+        self.fall_count = 0      #counts the frames of which player been falling
         self.jump_hieght = 4
+        self.hit = False
+        self.hit_count = 0
+        self.life = 3
 
     @print_function_name
     def jump(self):
@@ -46,6 +49,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += dx
         self.rect.y += dy
 
+    def make_hit(self):
+        self.hit = True
+        self.hit_count = 0
 
     def move_left(self, vel):
         self.x_vel = -vel
@@ -65,8 +71,16 @@ class Player(pygame.sprite.Sprite):
         self.y_vel += min (1, (self.fall_count / (fps)) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
         self.y_vel = min(self.y_vel, self.TERMINAL_VELOCITY)
-        self.fall_count += 1
 
+        if self.hit:
+            self.hit_count += 1
+        if self.hit_count > fps * 1:        # 1 second
+            self.hit = False
+            self.hit_count = 0
+            self.life -= 1
+
+
+        self.fall_count += 1
         self.update_sprite()
 
     def landed(self):
@@ -80,7 +94,8 @@ class Player(pygame.sprite.Sprite):
 
     def update_sprite(self):
         sprite_sheet = "idle"
-
+        if self.hit:
+            sprite_sheet = "hit"
         if self.y_vel < 0:
             if self.jump_count == 1:
                 sprite_sheet = "jump"
@@ -121,7 +136,7 @@ class Player(pygame.sprite.Sprite):
                         self.rect.top = obj.rect.bottom
                         self.hit_head()
 
-                collided_objects.append(obj)
+                    collided_objects.append(obj)
 
         return collided_objects
     
@@ -155,8 +170,12 @@ class Player(pygame.sprite.Sprite):
                 self.jump()
 
         self.up_key_pressed = keys[pygame.K_UP]
-        self.handle_vertical_collision(objects, self.y_vel)
+        vertical_collide = self.handle_vertical_collision(objects, self.y_vel)
+        to_check = [collide_left, collide_right, *vertical_collide]
 
+        for obj in to_check:
+            if obj and obj.name == "fire":
+                self.make_hit()
 
 #bug report: *  standing on the edge of the block causes a fall loop
 #          

@@ -7,6 +7,9 @@ import pygame
 from utils import load_sprite_sheets, get_block, get_background
 from objects import Block, Object, Fire
 
+FLOOR_Y = 608
+BLOCK_SIZE = 96
+
 def create_level(window, block_size):
     level_objects = []
 
@@ -89,7 +92,7 @@ def create_level(window, block_size):
         level_objects.append(block)
 
     fire_positions = [
-        (300, 300), (500, 300)
+        (200, FLOOR_Y), (400 + 2 * BLOCK_SIZE, FLOOR_Y - 2 * BLOCK_SIZE)
         # Add more fire positions as needed
     ]
 
