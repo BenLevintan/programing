@@ -175,8 +175,8 @@ class Player(pygame.sprite.Sprite):
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
         self.x_vel = 0
-        collide_left = self.collide(objects, -self.PLAYER_VEL)
-        collide_right = self.collide(objects, self.PLAYER_VEL)
+        collide_left = self.collide(objects, -self.PLAYER_VEL * 2)
+        collide_right = self.collide(objects, self.PLAYER_VEL * 2)
 
         if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)

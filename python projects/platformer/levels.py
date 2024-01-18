@@ -16,69 +16,21 @@ def create_level(window):
 
     # Define the position and size of the blocks in the level
     big_block_positions = [
-        (5, 5),
-        (5, 6),
-        (6, 5),
-        (8, 4),
-        (9, 4),
-        (12, 6),
-        (12, 3),
-        (13, 3),
-        (14, 3),
-        (16, 6),
-        (16, 5),
-        (17, 6),
-        (20, 4),
-        (21, 4),
-        (22, 4),
-        (23, 4),
-        (25, 6),
-        (25, 5),
-        (26, 6),
-        (28, 4),
-        (29, 4),
-        (32, 6),
-        (32, 3),
-        (33, 3),
-        (34, 3),
-        (32, 2),
-        (33, 2),
-        (34, 2),
-        (32, 1),
-        (33, 1),
-        (34, 1),
-        (36, 6),
-        (36, 5),
-        (37, 6),
-        (40, 4),
-        (41, 4),
-        (42, 4),
-        (43, 4),
-        (45, 6),
-        (45, 5),
-        (46, 6),
-        (48, 4),
-        (49, 4),
-        (52, 6),
-        (52, 3),
-        (53, 3),
-        (54, 3),
-        (56, 6),
-        (56, 5),
-        (57, 6),
-        (60, 4),
-        (61, 4),
-        (62, 4),
-        (63, 4),
-        (68, 4),
-        (69, 4),
+        *generate_horizontal_platfrom(8, 3, 1),
+        *generate_horizontal_platfrom(7, 4, 2),
+        *generate_horizontal_platfrom(6, 5, 3),
+        *generate_horizontal_platfrom(5, 6, 8),
+        *generate_horizontal_platfrom(15, 6, 2),
+        *generate_horizontal_platfrom(19, 6, 3),
+        *generate_horizontal_platfrom(21, 5, 1), (21, 4), (21, 3),
 
-        # Add more block positions as needed
     ]
 
     small_block_positions = [
-        (0, 0),(-1, 1),(1, 1)
+
+        #*generate_horizontal_platfrom(15, 10, 10)
     ]
+
 
     for pos_x, pos_y in big_block_positions:
         block = Block(pos_x * BLOCK_SIZE, pos_y * BLOCK_SIZE, 0, 0, BLOCK_SIZE)
@@ -98,7 +50,8 @@ def create_level(window):
     ]
 
     spikes_position = [
-        (300, FLOOR_Y + 32),(332, FLOOR_Y + 32)
+        (864, 544), (896, 544), (928, 544), (960, 544), (992, 544),
+        #*generate_horizontal_platfrom(864,544,3)
     ]
 
     for pos_x, pos_y in fire_positions:
@@ -112,6 +65,10 @@ def create_level(window):
     
     
     return level_objects
+
+def generate_horizontal_platfrom(x, y, length):
+    positions = [(x + i, y) for i in range(length)]
+    return positions
 
 
 def destroy_level(level_objects):
