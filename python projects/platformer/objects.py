@@ -60,3 +60,14 @@ class Fire(Object):
 
         if self.animation_count // self.ANIMATION_DELAY > len(sprites):
             self.animation_count = 0
+
+class Spikes(Object):
+    def __init__(self, x, y, width, height):
+        super().__init__(x , y, width, height, "spikes")
+        self.spikes = load_sprite_sheets("Traps", "Spikes", width, height)
+        self.image = self.spikes["Idle"][0]
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def loop(self):
+        self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
+

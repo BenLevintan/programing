@@ -18,7 +18,7 @@ def get_background(window, name):
     return scaled_background
 
 def load_heart_image():
-    path = join("assets", "UI", "heart2.png")
+    path = join("assets", "UI", "heart.png")
     original_heart_image = pygame.image.load(path).convert_alpha()
     scaled_heart_image = pygame.transform.scale(original_heart_image, (original_heart_image.get_width() * 4, original_heart_image.get_height() * 4))
 

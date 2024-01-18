@@ -5,7 +5,7 @@
 
 import pygame
 from utils import load_sprite_sheets, get_block, get_background
-from objects import Block, Object, Fire
+from objects import Block, Object, Fire, Spikes
 
 FLOOR_Y = 608
 BLOCK_SIZE = 96
@@ -96,11 +96,20 @@ def create_level(window, block_size):
         # Add more fire positions as needed
     ]
 
+    spikes_position = [
+        (300, FLOOR_Y + 32),(332, FLOOR_Y + 32)
+    ]
+
     for pos_x, pos_y in fire_positions:
         fire = Fire(pos_x, pos_y, 16, 32)
         fire.on()
         level_objects.append(fire)
 
+    for pos_x, pos_y in spikes_position:
+        spikes = Spikes(pos_x, pos_y, 16, 16)
+        level_objects.append(spikes)
+    
+    
     return level_objects
 
 

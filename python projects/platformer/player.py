@@ -47,10 +47,10 @@ class Player(pygame.sprite.Sprite):
         self.fall_count = 0      #counts the frames of which player been falling
         self.jump_hieght = 4
         self.hit = False
+        self.invincible = False
         self.hit_count = 0
         self.life = 3
 
-    @print_function_name
     def jump(self):
         self.y_vel = -self.GRAVITY * self.jump_hieght
         self.animation_count = 0 
@@ -87,9 +87,12 @@ class Player(pygame.sprite.Sprite):
 
         if self.hit:
             self.hit_count += 1
+        if self.hit_count == 5 and self.invincible == False:
+                self.life -= 1
+                self.invincible = True
         if self.hit_count > fps * 1:        # 1 second
             self.hit = False
-            self.life -= 1
+            self.invincible = False  
             self.hit_count = 0
 
         self.fall_count += 1
@@ -100,7 +103,6 @@ class Player(pygame.sprite.Sprite):
         self.y_vel = 0
         self.jump_count = 0
 
-    @print_function_name
     def hit_head(self):
         self.y_vel = 0
 
@@ -190,7 +192,7 @@ class Player(pygame.sprite.Sprite):
         to_check = [collide_left, collide_right, *vertical_collide]
 
         for obj in to_check:
-            if obj and obj.name == "fire":
+            if obj and (obj.name == "fire" or obj.name == "spikes"):
                 self.y_vel = -self.GRAVITY * self.jump_hieght
                 self.make_hit()
 

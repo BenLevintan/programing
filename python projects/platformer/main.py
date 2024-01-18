@@ -4,7 +4,7 @@ import pygame
 from utils import get_background, draw
 from player import Player, Hearts
 from levels import destroy_level, create_level
-from objects import Fire
+from objects import Fire, Spikes
 
 pygame.init()
 
@@ -46,9 +46,11 @@ def main(window):
         # contains all the function that run while the game is not paused 
         if not game_paused:
             player.loop(FPS)
-            for fire in level_objects:
-                if isinstance(fire, Fire):
-                    fire.loop()
+            for obj in level_objects:
+                if isinstance(obj, Fire):
+                    obj.loop()
+                if isinstance(obj, Spikes):
+                    obj.loop()
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
             hearts.draw(window)  # Draw the hearts on the screen
