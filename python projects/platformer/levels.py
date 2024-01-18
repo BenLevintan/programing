@@ -9,8 +9,9 @@ from objects import Block, Object, Fire, Spikes
 
 FLOOR_Y = 608
 BLOCK_SIZE = 96
+SMALL_BLOCK_SIZE = 32
 
-def create_level(window, block_size):
+def create_level(window):
     level_objects = []
 
     # Define the position and size of the blocks in the level
@@ -76,19 +77,19 @@ def create_level(window, block_size):
     ]
 
     small_block_positions = [
-        # Add small block positions as needed
+        (0, 0),(-1, 1),(1, 1)
     ]
 
     for pos_x, pos_y in big_block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
+        block = Block(pos_x * BLOCK_SIZE, pos_y * BLOCK_SIZE, 0, 0, BLOCK_SIZE)
         level_objects.append(block)
 
     for pos_x, pos_y in small_block_positions:
-        block = Block(pos_x * block_size, pos_y * block_size, 0, 0, block_size)
+        block = Block(pos_x * SMALL_BLOCK_SIZE, pos_y * SMALL_BLOCK_SIZE, 56, 8, SMALL_BLOCK_SIZE)
         level_objects.append(block)
 
     for i in range(5):
-        block = Block(i * block_size, window.get_height() - 0.5 * block_size, 96, 0, block_size)
+        block = Block(i * BLOCK_SIZE, window.get_height() - 0.5 * BLOCK_SIZE, 96, 0, BLOCK_SIZE)
         level_objects.append(block)
 
     fire_positions = [

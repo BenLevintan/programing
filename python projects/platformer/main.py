@@ -28,7 +28,7 @@ def main(window):
 
     run = True
     game_paused = False
-    level_objects = create_level(window, BLOCK_SIZE)  # Adjust the block_size as needed
+    level_objects = create_level(window)  # Adjust the block_size as needed
 
     scroll_area_width = 350
     offset_x = PLAYER_SPAWN - scroll_area_width
