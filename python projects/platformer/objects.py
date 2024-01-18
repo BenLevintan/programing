@@ -68,6 +68,4 @@ class Spikes(Object):
         self.image = self.spikes["Idle"][0]
         self.mask = pygame.mask.from_surface(self.image)
 
-    def loop(self):
-        self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
 

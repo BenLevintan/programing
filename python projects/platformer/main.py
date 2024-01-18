@@ -49,8 +49,6 @@ def main(window):
             for obj in level_objects:
                 if isinstance(obj, Fire):
                     obj.loop()
-                if isinstance(obj, Spikes):
-                    obj.loop()
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
             hearts.draw(window)  # Draw the hearts on the screen
