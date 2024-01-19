@@ -36,6 +36,9 @@ def create_level(window):
         *generate_horizontal_platfrom(64, 5, 2),
         *generate_horizontal_platfrom(66, 6, 2),
         *generate_horizontal_platfrom(68, 7, 2),
+        *generate_horizontal_platfrom(72, 7, 2),
+        *generate_horizontal_platfrom(74, 7, 2),
+        *generate_horizontal_platfrom(78, 18, 12),
     ]
 
 
@@ -59,7 +62,8 @@ def create_level(window):
 
     spikes_position = [
         #(864, 544), (896, 544), (928, 544), (960, 544), (992, 544),
-        *spike_floor(864,544,6)
+        *spike_floor(864,544,6),
+        *spike_floor(2452,206,4)
     ]
 
     for pos_x, pos_y in fire_positions:
@@ -89,3 +93,4 @@ def spike_floor(x, y, length):
 def destroy_level(level_objects):
     # Implement any cleanup or destruction logic here
     pass
+
