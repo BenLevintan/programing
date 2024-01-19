@@ -9,7 +9,9 @@ from objects import Block, Object, Fire, Spikes
 
 FLOOR_Y = 608
 BLOCK_SIZE = 96
-SMALL_BLOCK_SIZE = 32
+SMALL_BLOCK_SIZE = 34
+
+BIG_GRASS_BLOCK_POS = 96, 0
 
 def create_level(window):
     level_objects = []
@@ -22,13 +24,18 @@ def create_level(window):
         *generate_horizontal_platfrom(5, 6, 8),
         *generate_horizontal_platfrom(15, 6, 2),
         *generate_horizontal_platfrom(19, 6, 3),
-        *generate_horizontal_platfrom(21, 5, 1), (21, 4), (21, 3),
+        *generate_horizontal_platfrom(21, 5, 1),
+        *generate_wall(21, 4, 1)
 
     ]
 
     small_block_positions = [
 
-        #*generate_horizontal_platfrom(15, 10, 10)
+        *generate_horizontal_platfrom(46, 8, 6),
+        *generate_horizontal_platfrom(58, 4, 6),
+        *generate_horizontal_platfrom(64, 5, 2),
+        *generate_horizontal_platfrom(66, 6, 2),
+        *generate_horizontal_platfrom(68, 7, 2),
     ]
 
 
@@ -37,7 +44,7 @@ def create_level(window):
         level_objects.append(block)
 
     for pos_x, pos_y in small_block_positions:
-        block = Block(pos_x * SMALL_BLOCK_SIZE, pos_y * SMALL_BLOCK_SIZE, 56, 8, SMALL_BLOCK_SIZE)
+        block = Block(pos_x * SMALL_BLOCK_SIZE, pos_y * SMALL_BLOCK_SIZE, 48, 31, SMALL_BLOCK_SIZE)
         level_objects.append(block)
 
     for i in range(5):
@@ -45,13 +52,14 @@ def create_level(window):
         level_objects.append(block)
 
     fire_positions = [
-        (200, FLOOR_Y), (400 + 2 * BLOCK_SIZE, FLOOR_Y - 2 * BLOCK_SIZE)
+        (200, FLOOR_Y), (400 + 2 * BLOCK_SIZE, FLOOR_Y - 2 * BLOCK_SIZE),
+         *spike_floor(864,516,6)
         # Add more fire positions as needed
     ]
 
     spikes_position = [
-        (864, 544), (896, 544), (928, 544), (960, 544), (992, 544),
-        #*generate_horizontal_platfrom(864,544,3)
+        #(864, 544), (896, 544), (928, 544), (960, 544), (992, 544),
+        *spike_floor(864,544,6)
     ]
 
     for pos_x, pos_y in fire_positions:
@@ -70,6 +78,13 @@ def generate_horizontal_platfrom(x, y, length):
     positions = [(x + i, y) for i in range(length)]
     return positions
 
+def generate_wall(x, y, height):
+    positions = [(x, y - i) for i in range(height)]
+    return positions
+
+def spike_floor(x, y, length):
+    positions = [(x + i * 32 , y) for i in range(length)]
+    return positions
 
 def destroy_level(level_objects):
     # Implement any cleanup or destruction logic here
