@@ -14,6 +14,8 @@ SMALL_BLOCK_SIZE = 34
 BIG_GRASS_BLOCK_POS = 96, 0
 
 def create_level(window):
+    RESPAWN_POINTS = 50, 1150, 2970
+    
     level_objects = []
 
     # Define the position and size of the blocks in the level
@@ -25,9 +27,17 @@ def create_level(window):
         *generate_horizontal_platfrom(15, 6, 2),
         *generate_horizontal_platfrom(19, 6, 3),
         *generate_horizontal_platfrom(21, 5, 1),
-        *generate_wall(21, 4, 1)
+        *generate_wall(21, 4, 1),(32,5),(32,3),
+        *generate_horizontal_platfrom(32, 1, 3),
+        *generate_wall(35, 6, 5),
+        *generate_wall(36, 6, 4),
+        *generate_wall(37, 6, 3),
+        *generate_wall(38, 6, 2),
+        *generate_horizontal_platfrom(42, 6, 7),
+        (43, 5),(45, 5),(47, 5),
 
     ]
+
 
     small_block_positions = [
 
@@ -39,6 +49,20 @@ def create_level(window):
         *generate_horizontal_platfrom(72, 7, 2),
         *generate_horizontal_platfrom(74, 7, 2),
         *generate_horizontal_platfrom(78, 18, 12),
+        *generate_horizontal_platfrom(78, 18, 12),
+        *generate_horizontal_platfrom(146, 20, 6),
+        *generate_horizontal_platfrom(152, 19, 6),
+        *generate_horizontal_platfrom(158, 18, 6),
+        *generate_horizontal_platfrom(164, 13, 2),
+        *generate_horizontal_platfrom(162, 10, 2),
+        *generate_horizontal_platfrom(154, 6, 6),
+        *generate_horizontal_platfrom(148, 4, 6),
+        *generate_horizontal_platfrom(152, 1, 10),
+        *generate_horizontal_platfrom(173, 3, 8),
+        *generate_wall(180, 12, 10),
+        *generate_wall(183, 9, 16),
+        *generate_horizontal_platfrom(180, 13, 20),
+
     ]
 
 
@@ -56,14 +80,27 @@ def create_level(window):
 
     fire_positions = [
         (200, FLOOR_Y), (400 + 2 * BLOCK_SIZE, FLOOR_Y - 2 * BLOCK_SIZE),
-         *spike_floor(864,516,6)
+         *spike_floor(864,516,6),
+         *spike_floor(3456 - 96,224 - 96,3),
+         *spike_floor(3456,224,3),
+         *spike_floor(3456 + 2 * 96,224 + 2 * 96,3),
+         *spike_floor(5070,616,3),
+         *spike_floor(5070 + 34 * 6 ,616 - 34,3),
+         *spike_floor(5070 + 34 * 12 ,616 - 2 * 34,3),
         # Add more fire positions as needed
     ]
 
     spikes_position = [
         #(864, 544), (896, 544), (928, 544), (960, 544), (992, 544),
         *spike_floor(864,544,6),
-        *spike_floor(2452,206,4)
+        *spike_floor(2452,206,4),
+        *spike_floor(2741,580,6),
+        *spike_floor(3180,64,2),
+        *spike_floor(4129,448,3),
+        *spike_floor(4129 + 2 * 96,448,3),
+        *spike_floor(4129+ 4 * 96,448,3),
+        *spike_floor(5236,172,3),
+
     ]
 
     for pos_x, pos_y in fire_positions:

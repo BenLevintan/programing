@@ -7,6 +7,9 @@ pygame.init()
 
 ## add respawn function
 
+## addd a decorator that takes in functions and plays
+## a sound acording to the action that player made
+
 def print_function_name(func):
     def wrapper(*args, **kwargs):
         print(f"Calling {func.__name__} function")
@@ -32,7 +35,7 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 3
     TERMINAL_VELOCITY = 10
 
-    SPRITES = load_sprite_sheets("MainCharacters", "VirtualGuy", 32, 32, True)
+    SPRITES = load_sprite_sheets("MainCharacters", "NinjaFrog", 32, 32, True)
     ANIMATION_DELAY = 3
 
     def __init__(self, x, y, width, height):
@@ -121,7 +124,7 @@ class Player(pygame.sprite.Sprite):
             sprite_sheet = "run"
 
         # Check if the player is on the ground and adjust the sprite sheet accordingly
-        if self.y_vel == 0:
+        if  self.y_vel == 0:
             sprite_sheet = "idle"
 
         # Add hit animation
@@ -134,7 +137,7 @@ class Player(pygame.sprite.Sprite):
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
         self.update()
-
+        print(sprite_sheet, self.rect, self.x_vel, self.y_vel)
     
     def update(self):
         self.rect = self.sprite.get_rect(bottomleft=(self.rect.x, self.rect.y + self.rect.height))
@@ -146,7 +149,7 @@ class Player(pygame.sprite.Sprite):
     def handle_vertical_collision(self, objects, dy):
         collided_objects = []
         for obj in objects:
-                if  pygame.sprite.collide_mask(self, obj): # no collision is detected if obj is Object type 
+                if  pygame.sprite.collide_mask(self, obj):  
                     if dy >= 0:
                         self.rect.bottom = obj.rect.top
                         self.landed()
@@ -174,15 +177,16 @@ class Player(pygame.sprite.Sprite):
 
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
+
         self.x_vel = 0
-        collide_left = self.collide(objects, -self.PLAYER_VEL * 2)
-        collide_right = self.collide(objects, self.PLAYER_VEL * 2)
+        collide_left = self.collide(objects, -self.PLAYER_VEL * 1.6)
+        collide_right = self.collide(objects, self.PLAYER_VEL * 1.6)
 
         if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
         if keys[pygame.K_RIGHT] and not collide_right:
             self.move_right(self.PLAYER_VEL)
-            
+
         if keys[pygame.K_UP] and not self.up_key_pressed:
             if  self.jump_count < 2:
                 self.jump()
@@ -195,7 +199,3 @@ class Player(pygame.sprite.Sprite):
             if obj and (obj.name == "fire" or obj.name == "spikes"):
                 self.y_vel = -self.GRAVITY * self.jump_hieght
                 self.make_hit()
-
-
-#bug report: *  standing on the edge of the block causes a fall loop
-#          

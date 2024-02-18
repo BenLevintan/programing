@@ -13,11 +13,30 @@ pygame.display.set_caption("Platformer")
 WIN_WIDTH, WIN_HEIGHT = 1280, 720
 FPS = 60
 BLOCK_SIZE = 96
-PLAYER_SPAWN = 2000
+LEVEL_START = 50
+PLAYER_SPAWN = 50
+
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 keys = pygame.key.get_pressed()
 
+# respawn the player at PLAYER_SPAWN, returning a new screen offset 
+def respawn(player,scroll_area_width):
+    player.rect.y = 100
+    player.rect.x = PLAYER_SPAWN
+    player.y_vel = 0
+    player.jump_count = 2
+    offset_x = PLAYER_SPAWN - scroll_area_width
+    return offset_x
+
+def restart(player,scroll_area_width):
+    player.rect.y = 100
+    player.rect.x = LEVEL_START
+    player.y_vel = 0
+    player.jump_count = 2
+    player.life = 3
+    offset_x = LEVEL_START - scroll_area_width
+    return offset_x
 
 def main(window):
     clock = pygame.time.Clock()
@@ -28,8 +47,7 @@ def main(window):
 
     run = True
     game_paused = False
-    level_objects = create_level(window)  # Adjust the block_size as needed
-
+    level_objects = create_level(window)  
     scroll_area_width = 350
     offset_x = PLAYER_SPAWN - scroll_area_width
 
@@ -42,6 +60,10 @@ def main(window):
                 break
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 game_paused = not game_paused
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                offset_x = respawn(player,scroll_area_width)
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                offset_x = restart(player,scroll_area_width)
 
         # contains all the function that run while the game is not paused 
         if not game_paused:
@@ -52,6 +74,10 @@ def main(window):
             player.handle_move(level_objects)
             draw(window, background, player, level_objects, offset_x)
             hearts.draw(window)  # Draw the hearts on the screen
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            #print(f"Mouse Position: ({mouse_x + offset_x}, {mouse_y})")
+            #print(player.animation_count % 12 , player.rect.y)
+
 
             # respawn if falling off the map
             if player.rect.y > 1200:
@@ -69,7 +95,9 @@ def main(window):
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
             offset_x += player.x_vel
 
-        print(player.rect.x  , player.rect.y)
+        
+        
+        #print(player.rect.x  , player.rect.y)
 
         pygame.display.update()
 
