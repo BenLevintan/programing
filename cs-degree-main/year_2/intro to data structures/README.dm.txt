@@ -12,7 +12,7 @@ IntelliJ IDEA (recommended) or any other Java IDE
 Installation
 Clone the repository to your local machine:
 
-git clone https://github.com/your-username/library-management-system.git
+git clone https://github.com/BenLevintan/programing/tree/main/cs-degree-main/year_2/intro%20to%20data%20structures
 
 Open the project in IntelliJ IDEA or your preferred Java IDE.
 
