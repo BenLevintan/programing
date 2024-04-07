@@ -100,7 +100,7 @@ def create_level(window):
         *spike_floor(4129 + 2 * 96,448,3),
         *spike_floor(4129+ 4 * 96,448,3),
         *spike_floor(5236,172,3),
-
+        *spike_floor(6495, 412,3),
     ]
 
     for pos_x, pos_y in fire_positions:

@@ -14,7 +14,7 @@ WIN_WIDTH, WIN_HEIGHT = 1280, 720
 FPS = 60
 BLOCK_SIZE = 96
 LEVEL_START = 50
-PLAYER_SPAWN = 50
+PLAYER_SPAWN = 6350
 
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -75,7 +75,7 @@ def main(window):
             draw(window, background, player, level_objects, offset_x)
             hearts.draw(window)  # Draw the hearts on the screen
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            #print(f"Mouse Position: ({mouse_x + offset_x}, {mouse_y})")
+            print(f"Mouse Position: ({mouse_x + offset_x}, {mouse_y})")
             #print(player.animation_count % 12 , player.rect.y)
 
 
